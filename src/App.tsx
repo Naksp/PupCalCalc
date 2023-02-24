@@ -1,7 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import {Form, Container, Row, ButtonGroup, ToggleButton, Col} from 'react-bootstrap';
+import {Form, Container, Row, ButtonGroup, ToggleButton, Col, InputGroup, DropdownButton} from 'react-bootstrap';
 import { Constants } from './Constants';
 import './App.scss';
+import DropdownItem from 'react-bootstrap/esm/DropdownItem';
+
+const PUPPY_0_TO_4_MONTS = 'puppy_0_to_4_months';
+const PUPPY_4_TO_12_MONTHS = 'puppy_4_to_12_months';
+const ADULT = 'adult';
+const INTACT_ADULT = 'intact_adult';
+const NEUTERED_ADULT = 'neutered_adult';
+const INACTIVE_MIN = 'inactive_min';
+const INACTIVE_MAX = 'inactive_max';
+const ACTIVE_MIN = 'active_min';
+const ACTIVE_MAX = 'active_max';
+const WEIGHT_LOSS = 'weight_loss';
+const WEIGHT_GAIN_MIN = 'weight_gain_min';
+const WEIGHT_GAIN_MAX = 'weight_gain_max';
 
 const Multipliers = {
   PUPPY_0_TO_4_MONTS: 3.0,
@@ -20,15 +34,30 @@ const Multipliers = {
   WEIGHT_GAIN_MAX: 1.8,
 }
 
+const KG = 'kg';
+const LBS = 'lbs';
+
+// const multiplierMap = new Map<string, number>([
+//   [PUPPY_0_TO_4_MONTS, 3.0],
+//   [PUPPY_4_TO_12_MONTHS, 2.0],
+//   [INTACT_ADULT, 1.8],
+//   [NEUTERED_ADULT, 1.6],
+
+//   [INACTIVE_MIN, 1.2],
+//   [INACTIVE_MAX, 1.4],
+//   [ACTIVE_MIN, 2.0],
+//   [ACTIVE_MAX, 5.0],
+
+//   [WEIGHT_LOSS, 1.0],
+//   [WEIGHT_GAIN_MIN, 1.2],
+//   [WEIGHT_GAIN_MAX, 1.8],
+// ]);
+
 // Radios
 const ageRadios = [
-  { name: 'Puppy (<1 year old)', value: 'puppy' },
-  { name: 'Adult (>1 year old)', value: 'adult' },
-];
-
-const puppyAgeRadios = [
-  { name: '<4 Months', value: 'lessThanFourMonths' },
-  { name: '4 - 12 Months', value: 'greaterThanFourMonths' },
+  { name: '<4 months', value: PUPPY_0_TO_4_MONTS},
+  { name: '4-12 months', value: PUPPY_4_TO_12_MONTHS},
+  { name: '>1 year', value: ADULT}
 ];
 
 const activityRadios = [
@@ -44,16 +73,17 @@ const neuteredRadios = [
 
 function App() {
 
-  const [result, setResult] = useState<number>();
-  const [multiplier, setMultiplier] = useState<number>(1.0);
-  const [goalMultiplier, setGoalMultiplier] = useState<number>(1.0);
+  const [result, setResult] = useState<string>();
+  const [unit, setUnit] = useState<string>(LBS);
+
+  const [multiplier, setMultiplier] = useState<number>(3.0);
   const [isAdult, setIsAdult] = useState<boolean>(false);
   const [isNeutered, setIsNeutered] = useState<boolean>(true);
 
   const [ageRadioValue, setAgeRadioValue] = useState<string>(ageRadios[0].value);
-  const [puppyAgeRadioValue, setPuppyAgeRadioValue] = useState<string>(puppyAgeRadios[0].value);
-  const [activityRadioValue, setActivityRadioValue] = useState<string>(activityRadios[0].value);
-  const [neuteredRadioValue, setNeuteredRadioValue] = useState<string>(neuteredRadios[0].value);
+  const [activityRadioValue, setActivityRadioValue] = useState<string>('');
+  const [neuteredRadioValue, setNeuteredRadioValue] = useState<string>('');
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -63,28 +93,55 @@ function App() {
     };
 
     const rer: number = caclulateRer(Number(formElements.weightInput.value));
-    const n = rer * multiplier;
+    var result: string;
 
-    setResult(n);
+    // Display calorie range if activity level is 'active'
+    if (isAdult && activityRadioValue === 'active') {
+      const min = Math.round(rer * Multipliers.ACTIVE_MIN).toString();
+      const max = Math.round(rer * Multipliers.ACTIVE_MAX).toString();
+      result = `${min} - ${max}`
+
+    } else if (isAdult && activityRadioValue === 'inactive') {
+      const min = Math.round(rer * Multipliers.INACTIVE_MIN).toString();
+      const max = Math.round(rer * Multipliers.INACTIVE_MAX).toString();
+      result = `${min} - ${max}`
+
+    } else {
+      result = Math.round(rer * multiplier).toString();
+    }
+
+    setResult(result);
   }
 
   const caclulateRer = (weight: number): number => {
+    if (unit === LBS) {
+      weight = weight / 2.205;
+    }
     return 70 * Math.pow(weight, 0.75);
   }
 
   const handleAgeChange = (value: string) => {
-    setIsAdult(value === 'adult');
+    if (value === ADULT) {
+      setIsAdult(true);
+
+    } else {
+      setIsAdult(false);
+
+      if (value === PUPPY_0_TO_4_MONTS) {
+        setMultiplier(Multipliers.PUPPY_0_TO_4_MONTS);
+      } else {
+        setMultiplier(Multipliers.PUPPY_4_TO_12_MONTHS);
+      }
+    }
+
     setAgeRadioValue(value);
   }
 
-  const handlePuppyAgeChange = (value: string) => {
-    setPuppyAgeRadioValue(value);
-    if (value === puppyAgeRadios[0].value) {
-      setMultiplier(Multipliers.PUPPY_0_TO_4_MONTS);
-    } else {
-      setMultiplier(Multipliers.PUPPY_4_TO_12_MONTHS);
+  useEffect(() => {
+    if (isAdult) {
+      handleActivityChange(activityRadioValue);
     }
-  }
+  }, [isAdult])
 
   const handleActivityChange = (value: string) => {
     setActivityRadioValue(value);
@@ -102,22 +159,32 @@ function App() {
     setIsNeutered(value === 'neutered');
   }
 
+  useEffect(() => {
+    if (activityRadioValue === activityRadios[1].value) {
+      setMultiplier(isNeutered ? Multipliers.NEUTERED_ADULT : Multipliers.INTACT_ADULT);
+    }
+  }, [activityRadioValue, isNeutered]);
+
   return (
     <div className='App'>
-      <Container>
+      <Container id='app-container'>
         <Row className='row'>
           <Form onSubmit={handleSubmit}>
-            <Row className='mb-3'>
-              <Form.Group>
-                <Form.Label>Weight: </Form.Label>
-                <Form.Control id='weightInput' type='number' />
-              </Form.Group>
+            <Row className='mb-3 mt-3'>
+              <InputGroup>
+              <Form.Control id='weightInput' type='number' />
+                <DropdownButton title={unit}>
+                  <DropdownItem onClick={() => setUnit(LBS)}>lbs</DropdownItem>
+                  <DropdownItem onClick={() => setUnit(KG)}>kg</DropdownItem>
+                </DropdownButton>
+              </InputGroup>
             </Row>
-            <Row className='mb-3'>
-              <Col className='col-6'>
+            <Row>
+              <Col className='col'>
                 <ButtonGroup>
                   {ageRadios.map((radio, idx) => (
                     <ToggleButton
+                      className='button'
                       key={radio.value}
                       id={`radio-${radio.value}`}
                       type="radio"
@@ -132,47 +199,31 @@ function App() {
                   ))}
                 </ButtonGroup>
               </Col>
-              { isAdult ? 
-                <Col className='col-6'>
-                  <ButtonGroup>
-                    {neuteredRadios.map((radio, idx) => (
-                      <ToggleButton
-                        key={radio.value}
-                        id={`radio-${radio.value}`}
-                        type="radio"
-                        variant='outline-success'
-                        name="neuteredRadio"
-                        value={radio.value}
-                        checked={neuteredRadioValue === radio.value}
-                        onChange={(e) => handleNeuteredChange(e.currentTarget.value)}
-                      >
-                        {radio.name}
-                      </ToggleButton>
-                    ))}
-                  </ButtonGroup>
-                </Col>
-                :
-                <Col className='col-6'>
-                  <ButtonGroup>
-                    {puppyAgeRadios.map((radio, idx) => (
-                      <ToggleButton
-                        key={radio.value}
-                        id={`radio-${radio.value}`}
-                        type="radio"
-                        variant='outline-success'
-                        name="puppyAgeRadio"
-                        value={radio.value}
-                        checked={puppyAgeRadioValue === radio.value}
-                        onChange={(e) => handlePuppyAgeChange(e.currentTarget.value)}
-                      >
-                        {radio.name}
-                      </ToggleButton>
-                    ))}
-                  </ButtonGroup>
-                </Col>
-              }
             </Row>
-            { isAdult ?
+
+            { isAdult ? 
+              <Row>
+                <ButtonGroup>
+                  {neuteredRadios.map((radio, idx) => (
+                    <ToggleButton
+                      key={radio.value}
+                      id={`radio-${radio.value}`}
+                      type="radio"
+                      variant='outline-success'
+                      name="neuteredRadio"
+                      value={radio.value}
+                      checked={neuteredRadioValue === radio.value}
+                      onChange={(e) => handleNeuteredChange(e.currentTarget.value)}
+                    >
+                      {radio.name}
+                    </ToggleButton>
+                  ))}
+                </ButtonGroup>
+              </Row>
+              : null
+            }
+
+            { isAdult && neuteredRadioValue ?
               <Row className='mb-3'>
                 <ButtonGroup>
                   {activityRadios.map((radio, idx) => (
