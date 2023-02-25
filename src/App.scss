@@ -1,31 +1,17 @@
+$theme-colors: (
+  "primary": #3fffa2,
+  "secondary": #47f0ff
+);
+
+$color-outline: #333;
+
+$border-standard-width: 4px;
+$border-standard-color: $color-outline;
+$border-standard-radius: 1.15rem;
+
+
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
 }
 
 .row {
@@ -41,13 +27,61 @@
   max-width: 150px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.border-standard {
+  border-width: $border-standard-width !important;
+  border-color: $border-standard-color !important;
+  border-radius: $border-standard-radius !important;
+}
+
+.btn-group-primary {
+  color: #333 !important;
+
+  border-color: $border-standard-color !important;
+  border-width: $border-standard-width !important;
+  border-radius: $border-standard-radius !important;
+  padding-left: 10px
+
+  // .btn-group:not(:first-child) {
+  //   border-top-right-radius: 10px;
+  // }
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+#weightInput {
+  border-top-left-radius: $border-standard-radius;
+  border-bottom-left-radius: $border-standard-radius;
+
+  border-top-width: $border-standard-width;
+  border-left-width: $border-standard-width;
+  border-bottom-width: $border-standard-width;
+
+  border-color: $border-standard-color;
+}
+
+#weightDropdown {
+  border-top-right-radius: $border-standard-radius;
+  border-bottom-right-radius: $border-standard-radius;
+
+  border-top-width: $border-standard-width;
+  border-right-width: $border-standard-width;
+  border-bottom-width: $border-standard-width;
+
+  border-color: $border-standard-color;
+}
+
+#submitButton {
+  background-color: #47f0ff;
 }
 
 @import "../node_modules/bootstrap/scss/bootstrap.scss";

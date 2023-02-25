@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Form, Container, Row, ButtonGroup, ToggleButton, Col, InputGroup, DropdownButton} from 'react-bootstrap';
+import {Form, Container, Row, ButtonGroup, ToggleButton, Col, InputGroup, DropdownButton, Card} from 'react-bootstrap';
 import { Constants } from './Constants';
 import './App.scss';
 import DropdownItem from 'react-bootstrap/esm/DropdownItem';
@@ -168,90 +168,100 @@ function App() {
   return (
     <div className='App'>
       <Container id='app-container'>
-        <Row className='row'>
-          <Form onSubmit={handleSubmit}>
-            <Row className='mb-3 mt-3'>
-              <InputGroup>
-              <Form.Control id='weightInput' type='number' />
-                <DropdownButton title={unit}>
-                  <DropdownItem onClick={() => setUnit(LBS)}>lbs</DropdownItem>
-                  <DropdownItem onClick={() => setUnit(KG)}>kg</DropdownItem>
-                </DropdownButton>
-              </InputGroup>
-            </Row>
-            <Row>
-              <Col className='col'>
-                <ButtonGroup>
-                  {ageRadios.map((radio, idx) => (
-                    <ToggleButton
-                      className='button'
-                      key={radio.value}
-                      id={`radio-${radio.value}`}
-                      type="radio"
-                      variant='outline-success'
-                      name="ageRadio"
-                      value={radio.value}
-                      checked={ageRadioValue === radio.value}
-                      onChange={(e) => handleAgeChange(e.currentTarget.value)}
-                    >
-                      {radio.name}
-                    </ToggleButton>
-                  ))}
-                </ButtonGroup>
-              </Col>
-            </Row>
-
-            { isAdult ? 
+        <Card className='mt-4 border-standard'>
+          <Row className='row'>
+            <Form onSubmit={handleSubmit}>
+              <Row className='mb-3 mt-3 justify-content-center'>
+                <Col className='col-4'>
+                <InputGroup>
+                <Form.Control id='weightInput' type='number'/>
+                  <DropdownButton id='weightDropdown' title={unit}>
+                    <DropdownItem onClick={() => setUnit(LBS)}>lbs</DropdownItem>
+                    <DropdownItem onClick={() => setUnit(KG)}>kg</DropdownItem>
+                  </DropdownButton>
+                </InputGroup>
+                </Col>
+              </Row>
               <Row>
-                <ButtonGroup>
-                  {neuteredRadios.map((radio, idx) => (
-                    <ToggleButton
-                      key={radio.value}
-                      id={`radio-${radio.value}`}
-                      type="radio"
-                      variant='outline-success'
-                      name="neuteredRadio"
-                      value={radio.value}
-                      checked={neuteredRadioValue === radio.value}
-                      onChange={(e) => handleNeuteredChange(e.currentTarget.value)}
-                    >
-                      {radio.name}
-                    </ToggleButton>
-                  ))}
-                </ButtonGroup>
+                <Col className='col'>
+                  <ButtonGroup className='main-button-group'>
+                    {ageRadios.map((radio, idx) => (
+                      <ToggleButton
+                        className='button btn-group-primary mx-1'
+                        key={radio.value}
+                        id={`radio-${radio.value}`}
+                        type="radio"
+                        variant='outline-primary'
+                        name="ageRadio"
+                        value={radio.value}
+                        checked={ageRadioValue === radio.value}
+                        onChange={(e) => handleAgeChange(e.currentTarget.value)}
+                      >
+                        {radio.name}
+                      </ToggleButton>
+                    ))}
+                  </ButtonGroup>
+                </Col>
               </Row>
-              : null
-            }
 
-            { isAdult && neuteredRadioValue ?
-              <Row className='mb-3'>
-                <ButtonGroup>
-                  {activityRadios.map((radio, idx) => (
-                    <ToggleButton
-                      key={radio.value}
-                      id={`radio-${radio.value}`}
-                      type="radio"
-                      variant='outline-success'
-                      name="activityRadio"
-                      value={radio.value}
-                      checked={activityRadioValue === radio.value}
-                      onChange={(e) => handleActivityChange(e.currentTarget.value)}
-                    >
-                      {radio.name}
-                    </ToggleButton>
-                  ))}
-                </ButtonGroup>
-              </Row>
-              : null
-            }
+              { isAdult ? 
+                <Row>
+                  <Col>
+                    <ButtonGroup>
+                      {neuteredRadios.map((radio, idx) => (
+                        <ToggleButton
+                          className='button btn-group-primary mx-1'
+                          key={radio.value}
+                          id={`radio-${radio.value}`}
+                          type="radio"
+                          variant='outline-primary'
+                          name="neuteredRadio"
+                          value={radio.value}
+                          checked={neuteredRadioValue === radio.value}
+                          onChange={(e) => handleNeuteredChange(e.currentTarget.value)}
+                        >
+                          {radio.name}
+                        </ToggleButton>
+                      ))}
+                    </ButtonGroup>
+                  </Col>
+                </Row>
+                : null
+              }
 
-            <button type='submit'>Submit</button>
-          </Form>
+              { isAdult && neuteredRadioValue ?
+                <Row className='mb-3'>
+                  <Col>
+                    <ButtonGroup>
+                      {activityRadios.map((radio, idx) => (
+                        <ToggleButton
+                          className='button btn-group-primary mx-1'
+                          key={radio.value}
+                          id={`radio-${radio.value}`}
+                          type="radio"
+                          variant='outline-primary'
+                          name="activityRadio"
+                          value={radio.value}
+                          checked={activityRadioValue === radio.value}
+                          onChange={(e) => handleActivityChange(e.currentTarget.value)}
+                        >
+                          {radio.name}
+                        </ToggleButton>
+                      ))}
+                    </ButtonGroup>
+                  </Col>
+                </Row>
+                : null
+              }
 
-          <p>{isAdult}</p>
-          <p id='calorie-result'>{result}</p>
-          <p>K Factor: {multiplier}</p>
-        </Row>
+              <button type='submit' id='submitButton' className='border-standard'>Submit</button>
+            </Form>
+
+            <p>{isAdult}</p>
+            <p id='calorie-result'>{result}</p>
+          </Row>
+        </Card>
+        <p>K Factor: {multiplier}</p>
       </Container>
     </div>
   );
