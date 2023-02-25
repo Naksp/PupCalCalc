@@ -104,13 +104,13 @@ function App() {
     } else if (isAdult && activityRadioValue === 'inactive') {
       const min = Math.round(rer * Multipliers.INACTIVE_MIN).toString();
       const max = Math.round(rer * Multipliers.INACTIVE_MAX).toString();
-      result = `${min} - ${max}`
+      result = `${min} - ${max} calories`
 
     } else {
       result = Math.round(rer * multiplier).toString();
     }
 
-    setResult(result);
+    setResult(`${result} calories`);
   }
 
   const caclulateRer = (weight: number): number => {
@@ -172,7 +172,7 @@ function App() {
           <Row className='row'>
             <Form onSubmit={handleSubmit}>
               <Row className='mb-3 mt-3 justify-content-center'>
-                <Col className='col-4'>
+                <Col className='col-5 col-sm-4'>
                 <InputGroup>
                 <Form.Control id='weightInput' type='number'/>
                   <DropdownButton id='weightDropdown' title={unit}>
@@ -183,11 +183,11 @@ function App() {
                 </Col>
               </Row>
               <Row>
-                <Col className='col'>
-                  <ButtonGroup className='main-button-group'>
+                <Col>
+                  <ButtonGroup className='main-button-group col-12 justify-content-center'>
                     {ageRadios.map((radio, idx) => (
                       <ToggleButton
-                        className='button btn-group-primary mx-1'
+                        className='button button-standard btn-group-primary mx-1 col-4'
                         key={radio.value}
                         id={`radio-${radio.value}`}
                         type="radio"
@@ -207,10 +207,10 @@ function App() {
               { isAdult ? 
                 <Row>
                   <Col>
-                    <ButtonGroup>
+                    <ButtonGroup className='col-12 justify-content-center'>
                       {neuteredRadios.map((radio, idx) => (
                         <ToggleButton
-                          className='button btn-group-primary mx-1'
+                          className='button button-standard btn-group-primary mx-1 col-4'
                           key={radio.value}
                           id={`radio-${radio.value}`}
                           type="radio"
@@ -232,10 +232,10 @@ function App() {
               { isAdult && neuteredRadioValue ?
                 <Row className='mb-3'>
                   <Col>
-                    <ButtonGroup>
+                    <ButtonGroup className='col-12 justify-content-center'>
                       {activityRadios.map((radio, idx) => (
                         <ToggleButton
-                          className='button btn-group-primary mx-1'
+                          className='button button-standard btn-group-primary mx-1 col-4'
                           key={radio.value}
                           id={`radio-${radio.value}`}
                           type="radio"

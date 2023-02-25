@@ -12,6 +12,9 @@ $border-standard-radius: 1.15rem;
 
 .App {
   text-align: center;
+  font-family: sofia-pro-soft, sans-serif;
+  font-weight: 700;
+  font-style: normal;
 }
 
 .row {
@@ -31,6 +34,14 @@ $border-standard-radius: 1.15rem;
   border-width: $border-standard-width !important;
   border-color: $border-standard-color !important;
   border-radius: $border-standard-radius !important;
+}
+
+.button-standard {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+
+  font-weight: 700 !important;
 }
 
 .btn-group-primary {
@@ -67,6 +78,8 @@ input[type=number] {
   border-bottom-width: $border-standard-width;
 
   border-color: $border-standard-color;
+
+  font-weight: 700 !important;
 }
 
 #weightDropdown {
@@ -78,10 +91,13 @@ input[type=number] {
   border-bottom-width: $border-standard-width;
 
   border-color: $border-standard-color;
+
+  font-weight: 700 !important;
 }
 
 #submitButton {
   background-color: #47f0ff;
+  font-weight: 700 !important;
 }
 
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
