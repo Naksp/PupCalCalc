@@ -4,7 +4,8 @@ $theme-colors: (
 );
 
 $color-primary-active: #36e275;
-$color-outline: #333;
+$color-dark: #333;
+$color-outline: $color-dark;
 $color-blue: #59FF97;
 $color-blue-active: #ffe368;
 // $color-blue: #33DDFF;
@@ -36,7 +37,7 @@ html {
 
 #app-container {
   max-width: 500px;
-  border: #444;
+  border: $color-outline;
 }
 
 ul {
@@ -87,8 +88,14 @@ font-style: normal;
   font-weight: 700 !important;
 }
 
-.btn-group-primary {
-  color: #333 !important;
+.button-group-primary {
+  width: 100%;
+}
+
+.toggle-button-primary {
+  width: 100%;
+
+  color: $color-dark !important;
 
   border-color: $border-standard-color !important;
   border-width: $border-standard-width !important;
@@ -153,6 +160,7 @@ input[type=number] {
 #submitButton {
   background-color: $color-blue;
   font-weight: 700 !important;
+  color: $border-standard-color;
 
   &:active {
     background-color: $color-blue-active;

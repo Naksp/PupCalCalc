@@ -172,7 +172,7 @@ function App() {
           <h1 className='logo-text'>Dog Calorie Calculator</h1>
         </Row>
         <Card className='border-standard px-3 app-card'>
-          <Row className='row'>
+          <Row>
             <Form onSubmit={handleSubmit}>
               <Row className='mb-4 mt-3 justify-content-center'>
                 <Col className='col-5 col-sm-4'>
@@ -187,10 +187,10 @@ function App() {
               </Row>
               <Row>
                 <Col>
-                  <ButtonGroup className='row justify-content-center mb-3 mb-sm-0'>
+                  <ButtonGroup className='row justify-content-center mb-3 mb-sm-0 button-group-primary'>
                     {ageRadios.map((radio, idx) => (
                       <ToggleButton
-                        className='button button-standard btn-group-primary mx-1 col-12 col-sm-3 mb-1 mb-sm-3'
+                        className='button button-standard toggle-button-primary mx-1 col-12 col-sm-3 mb-1 mb-sm-3'
                         key={radio.value}
                         id={`radio-${radio.value}`}
                         type="radio"
@@ -210,10 +210,10 @@ function App() {
               { isAdult ? 
                 <Row>
                   <Col>
-                    <ButtonGroup className='row justify-content-center mb-3 mb-sm-0'>
+                    <ButtonGroup className='row justify-content-center mb-3 mb-sm-0 button-group-primary'>
                       {neuteredRadios.map((radio, idx) => (
                         <ToggleButton
-                          className='button button-standard btn-group-primary mx-1 col-12 col-sm-3 mb-1 mb-sm-3'
+                          className='button button-standard toggle-button-primary mx-1 col-12 col-sm-3 mb-1 mb-sm-3'
                           key={radio.value}
                           id={`radio-${radio.value}`}
                           type="radio"
@@ -235,10 +235,10 @@ function App() {
               { isAdult && neuteredRadioValue ?
                 <Row className='mb-2'>
                   <Col>
-                    <ButtonGroup className='row justify-content-center mb-3 mb-sm-0'>
+                    <ButtonGroup className='row justify-content-center mb-3 mb-sm-0 button-group-primary'>
                       {activityRadios.map((radio, idx) => (
                         <ToggleButton
-                          className='button button-standard btn-group-primary mx-1 col-12 col-sm-3 mb-1 mb-sm-3'
+                          className='button button-standard toggle-button-primary mx-1 col-12 col-sm-3 mb-1 mb-sm-3'
                           key={radio.value}
                           id={`radio-${radio.value}`}
                           type="radio"
