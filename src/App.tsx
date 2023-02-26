@@ -73,7 +73,7 @@ const neuteredRadios = [
 
 function App() {
 
-  const [result, setResult] = useState<string>();
+  const [result, setResult] = useState<string>('___ calories');
   const [unit, setUnit] = useState<string>(LBS);
 
   const [multiplier, setMultiplier] = useState<number>(3.0);
@@ -104,7 +104,7 @@ function App() {
     } else if (isAdult && activityRadioValue === 'inactive') {
       const min = Math.round(rer * Multipliers.INACTIVE_MIN).toString();
       const max = Math.round(rer * Multipliers.INACTIVE_MAX).toString();
-      result = `${min} - ${max} calories`
+      result = `${min} - ${max}`
 
     } else {
       result = Math.round(rer * multiplier).toString();
@@ -166,28 +166,31 @@ function App() {
   }, [activityRadioValue, isNeutered]);
 
   return (
-    <div className='App'>
+    <div className='App d-flex'>
       <Container id='app-container'>
-        <Card className='mt-4 border-standard'>
+        <Row>
+          <h1 className='logo-text'>Dog Calorie Calculator</h1>
+        </Row>
+        <Card className='border-standard px-3 app-card'>
           <Row className='row'>
             <Form onSubmit={handleSubmit}>
-              <Row className='mb-3 mt-3 justify-content-center'>
+              <Row className='mb-4 mt-3 justify-content-center'>
                 <Col className='col-5 col-sm-4'>
-                <InputGroup>
-                <Form.Control id='weightInput' type='number'/>
-                  <DropdownButton id='weightDropdown' title={unit}>
-                    <DropdownItem onClick={() => setUnit(LBS)}>lbs</DropdownItem>
-                    <DropdownItem onClick={() => setUnit(KG)}>kg</DropdownItem>
-                  </DropdownButton>
-                </InputGroup>
+                  <InputGroup>
+                  <Form.Control id='weightInput' type='number'/>
+                    <DropdownButton id='weightDropdown' title={unit}>
+                      <DropdownItem onClick={() => setUnit(LBS)}>lbs</DropdownItem>
+                      <DropdownItem onClick={() => setUnit(KG)}>kg</DropdownItem>
+                    </DropdownButton>
+                  </InputGroup>
                 </Col>
               </Row>
               <Row>
                 <Col>
-                  <ButtonGroup className='main-button-group col-12 justify-content-center'>
+                  <ButtonGroup className='row justify-content-center mb-3 mb-sm-0'>
                     {ageRadios.map((radio, idx) => (
                       <ToggleButton
-                        className='button button-standard btn-group-primary mx-1 col-4'
+                        className='button button-standard btn-group-primary mx-1 col-12 col-sm-3 mb-1 mb-sm-3'
                         key={radio.value}
                         id={`radio-${radio.value}`}
                         type="radio"
@@ -207,10 +210,10 @@ function App() {
               { isAdult ? 
                 <Row>
                   <Col>
-                    <ButtonGroup className='col-12 justify-content-center'>
+                    <ButtonGroup className='row justify-content-center mb-3 mb-sm-0'>
                       {neuteredRadios.map((radio, idx) => (
                         <ToggleButton
-                          className='button button-standard btn-group-primary mx-1 col-4'
+                          className='button button-standard btn-group-primary mx-1 col-12 col-sm-3 mb-1 mb-sm-3'
                           key={radio.value}
                           id={`radio-${radio.value}`}
                           type="radio"
@@ -230,12 +233,12 @@ function App() {
               }
 
               { isAdult && neuteredRadioValue ?
-                <Row className='mb-3'>
+                <Row className='mb-2'>
                   <Col>
-                    <ButtonGroup className='col-12 justify-content-center'>
+                    <ButtonGroup className='row justify-content-center mb-3 mb-sm-0'>
                       {activityRadios.map((radio, idx) => (
                         <ToggleButton
-                          className='button button-standard btn-group-primary mx-1 col-4'
+                          className='button button-standard btn-group-primary mx-1 col-12 col-sm-3 mb-1 mb-sm-3'
                           key={radio.value}
                           id={`radio-${radio.value}`}
                           type="radio"
@@ -254,10 +257,9 @@ function App() {
                 : null
               }
 
-              <button type='submit' id='submitButton' className='border-standard'>Submit</button>
+              <button type='submit' id='submitButton' className='border-standard mb-3'>Submit</button>
             </Form>
 
-            <p>{isAdult}</p>
             <p id='calorie-result'>{result}</p>
           </Row>
         </Card>
