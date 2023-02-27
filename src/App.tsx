@@ -36,22 +36,9 @@ const Multipliers = {
 
 const KG = 'kg';
 const LBS = 'lbs';
-
-// const multiplierMap = new Map<string, number>([
-//   [PUPPY_0_TO_4_MONTS, 3.0],
-//   [PUPPY_4_TO_12_MONTHS, 2.0],
-//   [INTACT_ADULT, 1.8],
-//   [NEUTERED_ADULT, 1.6],
-
-//   [INACTIVE_MIN, 1.2],
-//   [INACTIVE_MAX, 1.4],
-//   [ACTIVE_MIN, 2.0],
-//   [ACTIVE_MAX, 5.0],
-
-//   [WEIGHT_LOSS, 1.0],
-//   [WEIGHT_GAIN_MIN, 1.2],
-//   [WEIGHT_GAIN_MAX, 1.8],
-// ]);
+const KCAL_G = 'kcal/g'
+const KCAL_KG = 'kcal/kg'
+const KCAL_CUP = 'kcal/cup'
 
 // Radios
 const ageRadios = [
@@ -74,7 +61,9 @@ const neuteredRadios = [
 function App() {
 
   const [result, setResult] = useState<string>('___ calories');
-  const [unit, setUnit] = useState<string>(LBS);
+  const [weightUnit, setWeightUnit] = useState<string>(LBS);
+  const [foodUnit, setFoodUnit] = useState<string>(KCAL_G);
+  const [submitEnabled, setSubmitEnabled] = useState<boolean>(false);
 
   const [multiplier, setMultiplier] = useState<number>(3.0);
   const [isAdult, setIsAdult] = useState<boolean>(false);
@@ -85,14 +74,25 @@ function App() {
   const [neuteredRadioValue, setNeuteredRadioValue] = useState<string>('');
 
 
+  useEffect(() => {
+    if (ageRadioValue === ADULT) {
+      setSubmitEnabled(activityRadioValue !== '' && neuteredRadioValue !== '');
+    } else {
+      setSubmitEnabled(true);
+    }
+
+  }, [activityRadioValue, ageRadioValue, neuteredRadioValue]);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const formElements = form.elements as typeof form.elements & {
-      weightInput: HTMLInputElement;
+      weightInput: HTMLInputElement,
+      foodInput: HTMLInputElement,
     };
 
     const rer: number = caclulateRer(Number(formElements.weightInput.value));
+    const foodDensity: number = calculateFoodDensity(Number(formElements.foodInput.value));
     var result: string;
 
     // Display calorie range if activity level is 'active'
@@ -114,10 +114,14 @@ function App() {
   }
 
   const caclulateRer = (weight: number): number => {
-    if (unit === LBS) {
+    if (weightUnit === LBS) {
       weight = weight / 2.205;
     }
     return 70 * Math.pow(weight, 0.75);
+  }
+
+  const calculateFoodDensity = (calories: number): number => {
+    return 0;
   }
 
   const handleAgeChange = (value: string) => {
@@ -141,6 +145,8 @@ function App() {
     if (isAdult) {
       handleActivityChange(activityRadioValue);
     }
+  //FIXME I'm guessing this is a code smell
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAdult])
 
   const handleActivityChange = (value: string) => {
@@ -175,12 +181,12 @@ function App() {
           <Row>
             <Form onSubmit={handleSubmit}>
               <Row className='mb-4 mt-3 justify-content-center'>
-                <Col className='col-5 col-sm-4'>
+                <Col className='col-6 col-sm-4'>
                   <InputGroup>
                   <Form.Control id='weightInput' type='number'/>
-                    <DropdownButton id='weightDropdown' title={unit}>
-                      <DropdownItem onClick={() => setUnit(LBS)}>lbs</DropdownItem>
-                      <DropdownItem onClick={() => setUnit(KG)}>kg</DropdownItem>
+                    <DropdownButton id='weightDropdown' title={weightUnit}>
+                      <DropdownItem onClick={() => setWeightUnit(LBS)}>lbs</DropdownItem>
+                      <DropdownItem onClick={() => setWeightUnit(KG)}>kg</DropdownItem>
                     </DropdownButton>
                   </InputGroup>
                 </Col>
@@ -190,7 +196,7 @@ function App() {
                   <ButtonGroup className='row justify-content-center mb-3 mb-sm-0 button-group-primary'>
                     {ageRadios.map((radio, idx) => (
                       <ToggleButton
-                        className='button button-standard toggle-button-primary mx-1 col-12 col-sm-3 mb-1 mb-sm-3'
+                        className='button-standard toggle-button-primary mx-1 col-12 col-sm-3 mb-1 mb-sm-3'
                         key={radio.value}
                         id={`radio-${radio.value}`}
                         type="radio"
@@ -213,7 +219,7 @@ function App() {
                     <ButtonGroup className='row justify-content-center mb-3 mb-sm-0 button-group-primary'>
                       {neuteredRadios.map((radio, idx) => (
                         <ToggleButton
-                          className='button button-standard toggle-button-primary mx-1 col-12 col-sm-3 mb-1 mb-sm-3'
+                          className='button-standard toggle-button-primary mx-1 col-12 col-sm-3 mb-1 mb-sm-3'
                           key={radio.value}
                           id={`radio-${radio.value}`}
                           type="radio"
@@ -233,12 +239,13 @@ function App() {
               }
 
               { isAdult && neuteredRadioValue ?
-                <Row className='mb-2'>
+                // <Row className='mb-2'>
+                <Row>
                   <Col>
                     <ButtonGroup className='row justify-content-center mb-3 mb-sm-0 button-group-primary'>
                       {activityRadios.map((radio, idx) => (
                         <ToggleButton
-                          className='button button-standard toggle-button-primary mx-1 col-12 col-sm-3 mb-1 mb-sm-3'
+                          className='button-standard toggle-button-primary mx-1 col-12 col-sm-3 mb-1 mb-sm-3'
                           key={radio.value}
                           id={`radio-${radio.value}`}
                           type="radio"
@@ -257,10 +264,23 @@ function App() {
                 : null
               }
 
-              <button type='submit' id='submitButton' className='border-standard mb-3'>Submit</button>
+              <Row className='justify-content-center'>
+                <Col className='col-8 col-sm-5'>
+                  <InputGroup className='mb-4'>
+                  <Form.Control id='foodInput' type='number'/>
+                    <DropdownButton id='foodDropdown' title={foodUnit}>
+                      <DropdownItem onClick={() => setFoodUnit(KCAL_KG)}>{KCAL_KG}</DropdownItem>
+                      <DropdownItem onClick={() => setFoodUnit(KCAL_G)}>{KCAL_G}</DropdownItem>
+                      <DropdownItem onClick={() => setFoodUnit(KCAL_CUP)}>{KCAL_CUP}</DropdownItem>
+                    </DropdownButton>
+                  </InputGroup>
+                </Col>
+              </Row>
+
+              <button type='submit' id='submitButton' className='border-standard mb-3' disabled={!submitEnabled}>Submit</button>
             </Form>
 
-            <p id='calorie-result'>{result}</p>
+            <h1 id='calorie-result' className='mb-3'>{result}</h1>
           </Row>
         </Card>
         <p>K Factor: {multiplier}</p>
