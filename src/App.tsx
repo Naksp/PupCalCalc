@@ -204,13 +204,13 @@ function App() {
         <Row>
           <h1 className='logo-text'>Dog Calorie Calculator</h1>
         </Row>
-        <Card className='border-standard px-3 app-card'>
+        <Card className='border-standard app-card px-3 mb-4'>
           <Row>
             <Form onSubmit={handleSubmit}>
               <Row className='mb-4 mt-3 justify-content-center'>
                 <Col className='col-6 col-sm-4'>
                   <InputGroup>
-                  <Form.Control id='weightInput' type='number'/>
+                  <Form.Control id='weightInput' type='tel' placeholder='##'/>
                     <DropdownButton id='weightDropdown' title={weightUnit}>
                       <DropdownItem onClick={() => setWeightUnit(LBS)}>lbs</DropdownItem>
                       <DropdownItem onClick={() => setWeightUnit(KG)}>kg</DropdownItem>
@@ -291,16 +291,21 @@ function App() {
                 : null
               }
 
-              <Row className='justify-content-center'>
+              <Row className='justify-content-center mb-3'>
                 <Col className='col-8 col-sm-5'>
-                  <InputGroup className='mb-4'>
-                  <Form.Control id='foodInput' type='number' step='any'/>
-                    <DropdownButton id='foodDropdown' title={foodUnit}>
-                      <DropdownItem onClick={() => setFoodUnit(KCAL_KG)}>{KCAL_KG}</DropdownItem>
-                      <DropdownItem onClick={() => setFoodUnit(KCAL_G)}>{KCAL_G}</DropdownItem>
-                      <DropdownItem onClick={() => setFoodUnit(KCAL_CUP)}>{KCAL_CUP}</DropdownItem>
-                    </DropdownButton>
-                  </InputGroup>
+                  <Row className='mb-0'>
+                    <InputGroup className='mb-0'>
+                      <Form.Control id='foodInput' type='tel' step='any' placeholder='##'/>
+                      <DropdownButton id='foodDropdown' title={foodUnit}>
+                        <DropdownItem onClick={() => setFoodUnit(KCAL_KG)}>{KCAL_KG}</DropdownItem>
+                        <DropdownItem onClick={() => setFoodUnit(KCAL_G)}>{KCAL_G}</DropdownItem>
+                        <DropdownItem onClick={() => setFoodUnit(KCAL_CUP)}>{KCAL_CUP}</DropdownItem>
+                      </DropdownButton>
+                    </InputGroup>
+                  </Row>
+                  <Row className='justify-content-left optional-text'>
+                    optional
+                  </Row>
                 </Col>
               </Row>
 

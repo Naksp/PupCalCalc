@@ -3,10 +3,12 @@ $theme-colors: (
   "secondary": #33FFF1
 );
 
-$color-primary-active: #36e275;
-$color-dark: #333;
-$color-outline: $color-dark;
+$color-dark-grey: #333;
+$color-light-grey: #bbb;
 $color-green: #59FF97;
+
+$color-primary-active: #36e275;
+$color-outline: $color-dark-grey;
 $color-green-active: #ffe368;
 $color-background: #FFF9E0;
 $color-logo: #5757FF;
@@ -54,7 +56,7 @@ ul {
   margin-bottom: 10px;
   margin-top: 10px;
   align-self: flex-start;
-  color: $color-dark;
+  color: $color-dark-grey;
   // color: $color-logo;
 
   // font-family: "hwt-gothic-round", sans-serif;
@@ -63,6 +65,13 @@ ul {
   font-family: "report", sans-serif;
   font-weight: 900;
   font-style: normal;
+}
+
+.optional-text {
+  font-size: 0.75rem;
+  padding-left: 1.5rem;
+  margin-top: -0.2rem !important;
+  color: $color-light-grey;
 }
 
 // .app-card {
@@ -90,7 +99,7 @@ ul {
 .toggle-button-primary {
   width: 100%;
 
-  color: $color-dark !important;
+  color: $color-dark-grey !important;
 
   border-color: $border-standard-color !important;
   border-width: $border-standard-width !important;
@@ -100,6 +109,9 @@ ul {
   margin-bottom: 1rem;
 }
 
+.form-control::placeholder {
+  color: $color-light-grey !important;
+}
 
 #weightInput,
 #foodInput {
