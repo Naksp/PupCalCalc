@@ -1,3 +1,5 @@
+@import "~bootstrap/scss/bootstrap-grid.scss";
+
 $theme-colors: (
   "primary": #FFDC40,
   "secondary": #33FFF1
@@ -16,6 +18,12 @@ $color-logo: #5757FF;
 $border-standard-width: 4px;
 $border-standard-color: $color-outline;
 $border-standard-radius: 1.15rem;
+
+@include media-breakpoint-up(sm) {
+  .button-standard {
+    max-width: 30% !important;
+  }
+}
 
 html {
   background-color: $color-background;
@@ -85,6 +93,7 @@ ul {
 }
 
 .button-standard {
+  max-width: 100%;
   display: flex !important;
   justify-content: center;
   align-items: center;
@@ -201,5 +210,6 @@ input[type=number] {
 #food-result {
   font-weight: 900 !important;
 }
+
 
 @import "../node_modules/bootstrap/scss/bootstrap.scss";

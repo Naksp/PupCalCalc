@@ -40,7 +40,8 @@ const ageRadios = [
 
 const activityRadios = [
   { name: 'Inactive', value: 'inactive' },
-  { name: 'Moderately active', value: 'moderatelyActive'},
+  // { name: 'Moderately active', value: 'moderatelyActive'},
+  { name: 'Average', value: 'moderatelyActive'},
   { name: 'Active', value: 'active' },
 ];
 
@@ -121,7 +122,7 @@ function App() {
   const caclulateRer = (weight: number): number => {
     if (weightUnit === LBS) {
       weight = weight / 2.205;
-    }
+    } 
     return 70 * Math.pow(weight, 0.75);
   }
 
@@ -266,10 +267,9 @@ function App() {
               }
 
               { isAdult && neuteredRadioValue ?
-                // <Row className='mb-2'>
                 <Row>
                   <Col>
-                    <ButtonGroup className='row justify-content-center mb-3 mb-sm-0 button-group-primary'>
+                    <ButtonGroup className='row justify-content-center mb-3 mb-sm-2 button-group-primary'>
                       {activityRadios.map((radio, idx) => (
                         <ToggleButton
                           className='button-standard toggle-button-primary mx-1 col-12 col-sm-3 mb-1 mb-sm-3'
