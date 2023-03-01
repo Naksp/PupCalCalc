@@ -27,10 +27,11 @@ $border-standard-radius: 1.15rem;
 
 html {
   background-color: $color-background;
+  overflow: hidden;
 }
 
 h1 {
-  font-weight: 800 !important;
+  font-weight: 900 !important;
   color: $color-dark-grey;
 }
 
