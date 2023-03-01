@@ -211,7 +211,7 @@ function App() {
               <Row className='mb-4 mt-3 justify-content-center'>
                 <Col className='col-6 col-sm-4'>
                   <InputGroup>
-                  <Form.Control id='weightInput' type='number' placeholder='##'/>
+                  <Form.Control id='weightInput' type='number' step='any' placeholder='##'/>
                     <DropdownButton id='weightDropdown' title={weightUnit}>
                       <DropdownItem onClick={() => setWeightUnit(LBS)}>lbs</DropdownItem>
                       <DropdownItem onClick={() => setWeightUnit(KG)}>kg</DropdownItem>
