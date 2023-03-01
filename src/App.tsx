@@ -211,7 +211,7 @@ function App() {
               <Row className='mb-4 mt-3 justify-content-center'>
                 <Col className='col-6 col-sm-4'>
                   <InputGroup>
-                  <Form.Control id='weightInput' type='tel' placeholder='##'/>
+                  <Form.Control id='weightInput' type='number' placeholder='##'/>
                     <DropdownButton id='weightDropdown' title={weightUnit}>
                       <DropdownItem onClick={() => setWeightUnit(LBS)}>lbs</DropdownItem>
                       <DropdownItem onClick={() => setWeightUnit(KG)}>kg</DropdownItem>
@@ -295,7 +295,7 @@ function App() {
                 <Col className='col-8 col-sm-5'>
                   <Row className='mb-0'>
                     <InputGroup className='mb-0'>
-                      <Form.Control id='foodInput' type='tel' step='any' placeholder='##'/>
+                      <Form.Control id='foodInput' type='number' step='any' placeholder='##'/>
                       <DropdownButton id='foodDropdown' title={foodUnit}>
                         <DropdownItem onClick={() => setFoodUnit(KCAL_KG)}>{KCAL_KG}</DropdownItem>
                         <DropdownItem onClick={() => setFoodUnit(KCAL_G)}>{KCAL_G}</DropdownItem>
