@@ -52,6 +52,7 @@ const neuteredRadios = [
 
 function App() {
 
+  const [weightInput, setWeightInput] = useState<string>('');
   const [weightUnit, setWeightUnit] = useState<string>(LBS);
   const [caloriesResult, setCaloriesResult] = useState<string>('___ calories');
 
@@ -71,7 +72,7 @@ function App() {
   useEffect(() => {
     if (ageRadioValue === ADULT) {
       setSubmitEnabled(activityRadioValue !== '' && neuteredRadioValue !== '');
-    } else {
+    } else if (weightInput) {
       setSubmitEnabled(true);
     }
 
@@ -199,6 +200,12 @@ function App() {
     }
   }, [activityRadioValue, isNeutered]);
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.currentTarget.value;
+    setSubmitEnabled(!!val);
+    setWeightInput(val);
+  }
+
   return (
     <div className='App d-flex'>
       <Container id='app-container'>
@@ -208,10 +215,11 @@ function App() {
         <Card className='border-standard app-card px-3 mb-4'>
           <Row>
             <Form onSubmit={handleSubmit}>
-              <Row className='mb-4 mt-3 justify-content-center'>
+              <h1 className='mt-2'>dog</h1>
+              <Row className='mb-4 mt-2 justify-content-center'>
                 <Col className='col-6 col-sm-4'>
                   <InputGroup>
-                  <Form.Control id='weightInput' type='number' step='any' placeholder='##'/>
+                  <Form.Control id='weightInput' type='number' step='any' placeholder='##' onChange={handleInputChange}/>
                     <DropdownButton id='weightDropdown' title={weightUnit}>
                       <DropdownItem onClick={() => setWeightUnit(LBS)}>lbs</DropdownItem>
                       <DropdownItem onClick={() => setWeightUnit(KG)}>kg</DropdownItem>
@@ -291,6 +299,7 @@ function App() {
                 : null
               }
 
+              <h1>food</h1>
               <Row className='justify-content-center mb-3'>
                 <Col className='col-8 col-sm-5'>
                   <Row className='mb-0'>

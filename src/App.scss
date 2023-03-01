@@ -29,6 +29,11 @@ html {
   background-color: $color-background;
 }
 
+h1 {
+  font-weight: 800 !important;
+  color: $color-dark-grey;
+}
+
 .App {
   // position: fixed;
   // top: 50%;
@@ -193,6 +198,10 @@ input[type=number] {
   background-color: $color-green;
   font-weight: 700 !important;
   color: $border-standard-color;
+  height: 44px;
+  width: 5rem;
+  padding-left: 3px;
+  padding-right: 3px;
 
   &:disabled {
     background-color: #aaa;
