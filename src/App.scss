@@ -27,7 +27,6 @@ $border-standard-radius: 1.15rem;
 
 html {
   background-color: $color-background;
-  // overflow: hidden;
 }
 
 h1 {
@@ -172,6 +171,7 @@ ul {
   border-right-width: $border-standard-width;
   border-bottom-width: $border-standard-width;
 
+  color: $color-dark-grey;
   border-color: $border-standard-color;
 
   font-weight: 700 !important;
