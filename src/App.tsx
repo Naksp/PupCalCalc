@@ -3,6 +3,7 @@ import {Form, Container, Row, ButtonGroup, ToggleButton, Col, InputGroup, Dropdo
 import './App.scss';
 import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 import Utils from './Util';
+import Footer from './footer';
 
 const PUPPY_0_TO_4_MONTS = 'puppy_0_to_4_months';
 const PUPPY_4_TO_12_MONTHS = 'puppy_4_to_12_months';
@@ -326,6 +327,7 @@ function App() {
           </Row>
         </Card>
         {/* <p>K Factor: {multiplier}</p> */}
+        <Footer />
       </Container>
     </div>
   );

@@ -1,18 +1,22 @@
 @import "~bootstrap/scss/bootstrap-grid.scss";
 
 $theme-colors: (
-  "primary": #FFDC40,
+  // "primary": #FFDC40,
+  "primary": #FFC700,
   "secondary": #33FFF1
 );
 
 $color-dark-grey: #333;
+$color-medium-grey: #aaa;
 $color-light-grey: #bbb;
-$color-green: #59FF97;
+// $color-green: #59FF97;
+$color-green: #00FF47;
 
 $color-primary-active: #36e275;
 $color-outline: $color-dark-grey;
-$color-green-active: #ffe368;
-$color-background: #FFF9E0;
+$color-green-active: #FFDC40;
+// $color-background: #FFF9E0;
+$color-background: #FFF2C2;
 $color-logo: #5757FF;
 
 $border-standard-width: 4px;
@@ -35,11 +39,6 @@ h1 {
 }
 
 .App {
-  // position: fixed;
-  // top: 50%;
-  // left: 50%;
-  // transform: translate(-50%, -55%);
-
   background-color: $color-background;
   text-align: center;
   font-family: sofia-pro-soft, sans-serif;
@@ -70,11 +69,7 @@ ul {
   margin-top: 10px;
   align-self: flex-start;
   color: $color-dark-grey;
-  // color: $color-logo;
 
-  // font-family: "hwt-gothic-round", sans-serif;
-  // font-weight: 900;
-  // font-style: normal;
   font-family: "sofia-pro-soft", sans-serif;
   font-weight: 900;
   font-style: normal;
@@ -86,10 +81,6 @@ ul {
   margin-top: -0.2rem !important;
   color: $color-light-grey;
 }
-
-// .app-card {
-//   background-color: $color-background;
-// }
 
 .border-standard {
   border-width: $border-standard-width !important;
@@ -197,6 +188,7 @@ input[type=number] {
 
 #submitButton {
   background-color: $color-green;
+  border-style: solid !important;
   font-weight: 700 !important;
   color: $border-standard-color;
   height: 44px;

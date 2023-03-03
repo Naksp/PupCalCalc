@@ -1,0 +1,14 @@
+@import "./App.scss";
+
+a {
+    color: $color-medium-grey;
+    text-decoration: none;
+
+    &:active, &:hover {
+        color:#2627FF;
+    }
+}
+
+.footer-container {
+    color: $color-medium-grey !important;
+}
