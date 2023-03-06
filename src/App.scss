@@ -14,7 +14,7 @@ $color-green: #00FF47;
 
 $color-primary-active: #36e275;
 $color-outline: $color-dark-grey;
-$color-green-active: #FFDC40;
+$color-green-active: map-get($map: $theme-colors, $key: "primary");
 // $color-background: #FFF9E0;
 $color-background: #FFF2C2;
 $color-logo: #5757FF;
