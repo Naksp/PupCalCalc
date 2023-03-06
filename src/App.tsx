@@ -3,7 +3,7 @@ import {Form, Container, Row, ButtonGroup, ToggleButton, Col, InputGroup, Dropdo
 import './App.scss';
 import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 import Utils from './Util';
-import Footer from './footer';
+import FoodGroup from './food-group';
 
 const PUPPY_0_TO_4_MONTS = 'puppy_0_to_4_months';
 const PUPPY_4_TO_12_MONTHS = 'puppy_4_to_12_months';
@@ -28,9 +28,9 @@ const Multipliers = {
 
 const KG = 'kg';
 const LBS = 'lbs';
-const KCAL_G = 'kcal/g'
-const KCAL_KG = 'kcal/kg'
-const KCAL_CUP = 'kcal/cup'
+const KCAL_G = 'kcal/g';
+const KCAL_KG = 'kcal/kg';
+const KCAL_CUP = 'kcal/cup';
 
 // Radios
 const ageRadios = [
@@ -57,6 +57,7 @@ function App() {
   const [weightUnit, setWeightUnit] = useState<string>(LBS);
   const [caloriesResult, setCaloriesResult] = useState<string>('___ calories');
 
+  const [foodInput, setFoodInput] = useState<string>(KCAL_KG);
   const [foodUnit, setFoodUnit] = useState<string>(KCAL_KG);
   const [foodResult, setFoodResult] = useState<string>('');
 
@@ -88,7 +89,7 @@ function App() {
     };
 
     const rer: number = caclulateRer(Number(formElements.weightInput.value));
-    const foodDensity: number = Number(formElements.foodInput.value);
+    const foodDensity: number = Number(foodInput);
 
     var result: string;
     var foodAmtResult: string;
@@ -201,10 +202,16 @@ function App() {
     }
   }, [activityRadioValue, isNeutered]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleWeightInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.currentTarget.value;
     setSubmitEnabled(!!val);
     setWeightInput(val);
+  }
+
+  const handleFoodInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.currentTarget.value;
+    // setSubmitEnabled(!!val);
+    setFoodInput(val);
   }
 
   return (
@@ -220,7 +227,7 @@ function App() {
               <Row className='mb-4 mt-2 justify-content-center'>
                 <Col className='col-6 col-sm-4'>
                   <InputGroup>
-                  <Form.Control id='weightInput' type='number' step='any' placeholder='##' onChange={handleInputChange}/>
+                  <Form.Control id='weightInput' type='number' step='any' placeholder='##' onChange={handleWeightInputChange}/>
                     <DropdownButton id='weightDropdown' title={weightUnit}>
                       <DropdownItem onClick={() => setWeightUnit(LBS)}>lbs</DropdownItem>
                       <DropdownItem onClick={() => setWeightUnit(KG)}>kg</DropdownItem>
@@ -300,24 +307,7 @@ function App() {
                 : null
               }
 
-              <h1>food</h1>
-              <Row className='justify-content-center mb-3'>
-                <Col className='col-8 col-sm-5'>
-                  <Row className='mb-0'>
-                    <InputGroup className='mb-0'>
-                      <Form.Control id='foodInput' type='number' step='any' placeholder='##'/>
-                      <DropdownButton id='foodDropdown' title={foodUnit}>
-                        <DropdownItem onClick={() => setFoodUnit(KCAL_KG)}>{KCAL_KG}</DropdownItem>
-                        <DropdownItem onClick={() => setFoodUnit(KCAL_G)}>{KCAL_G}</DropdownItem>
-                        <DropdownItem onClick={() => setFoodUnit(KCAL_CUP)}>{KCAL_CUP}</DropdownItem>
-                      </DropdownButton>
-                    </InputGroup>
-                  </Row>
-                  <Row className='justify-content-left optional-text'>
-                    optional
-                  </Row>
-                </Col>
-              </Row>
+              <FoodGroup foodUnit={foodUnit} onInputChange={handleFoodInputChange} onUnitChange={(unit: string) => setFoodUnit(unit)}/>
 
               <button type='submit' id='submitButton' className='border-standard mb-3' disabled={!submitEnabled}>Submit</button>
             </Form>
@@ -327,7 +317,6 @@ function App() {
           </Row>
         </Card>
         {/* <p>K Factor: {multiplier}</p> */}
-        <Footer />
       </Container>
     </div>
   );
