@@ -4,6 +4,7 @@ import './App.scss';
 import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 import Utils from './Util';
 import FoodGroup from './food-group';
+import DogGroup from './dog-group';
 
 const PUPPY_0_TO_4_MONTS = 'puppy_0_to_4_months';
 const PUPPY_4_TO_12_MONTHS = 'puppy_4_to_12_months';
@@ -28,9 +29,6 @@ const Multipliers = {
 
 const KG = 'kg';
 const LBS = 'lbs';
-const KCAL_G = 'kcal/g';
-const KCAL_KG = 'kcal/kg';
-const KCAL_CUP = 'kcal/cup';
 
 // Radios
 const ageRadios = [
@@ -56,9 +54,9 @@ function App() {
   const [weightInput, setWeightInput] = useState<string>('');
   const [weightUnit, setWeightUnit] = useState<string>(LBS);
   const [caloriesResult, setCaloriesResult] = useState<string>('___ calories');
+  const [caloriesMin, setCaloriesMin] = useState<number>(0);
+  const [caloriesMax, setCaloriesMax] = useState<number>(-1);
 
-  const [foodInput, setFoodInput] = useState<string>(KCAL_KG);
-  const [foodUnit, setFoodUnit] = useState<string>(KCAL_KG);
   const [foodResult, setFoodResult] = useState<string>('');
 
   const [multiplier, setMultiplier] = useState<number>(3.0);
@@ -89,37 +87,32 @@ function App() {
     };
 
     const rer: number = caclulateRer(Number(formElements.weightInput.value));
-    const foodDensity: number = Number(foodInput);
 
     var result: string;
-    var foodAmtResult: string;
 
     // Display calorie range if activity level is 'active'
     if (isAdult && activityRadioValue === 'active') {
       const min = Math.round(rer * Multipliers.ACTIVE_MIN);
       const max = Math.round(rer * Multipliers.ACTIVE_MAX);
-      result = `${min.toString()} - ${max.toString()}`
-
-      foodAmtResult = buildFoodResult(foodDensity, min, max);
+      setCaloriesMin(min);
+      setCaloriesMax(max);
+      result = `${min.toString()} - ${max.toString()}`;
 
     } else if (isAdult && activityRadioValue === 'inactive') {
       const min = Math.round(rer * Multipliers.INACTIVE_MIN);
       const max = Math.round(rer * Multipliers.INACTIVE_MAX);
-      result = `${min.toString()} - ${max.toString()}`
-
-      foodAmtResult = buildFoodResult(foodDensity, min, max);
+      setCaloriesMin(min);
+      setCaloriesMax(max);
+      result = `${min.toString()} - ${max.toString()}`;
 
     } else {
       const cal = Math.round(rer * multiplier);
       result = cal.toString();
-
-      foodAmtResult = buildFoodResult(foodDensity, cal);
+      setCaloriesMin(cal);
+      setCaloriesMax(-1);
     }
 
     setCaloriesResult(`${result} calories`);
-    if (foodDensity) {
-      setFoodResult(foodAmtResult);
-    }
   }
 
   const caclulateRer = (weight: number): number => {
@@ -127,32 +120,6 @@ function App() {
       weight = weight / 2.205;
     } 
     return 70 * Math.pow(weight, 0.75);
-  }
-
-  const buildFoodResult = (density: number, min: number, max?: number): string => {
-    if (max) {
-      if (foodUnit === KCAL_G) {
-        return `${Math.round(min/density)} - ${Math.round(max/density)} grams`
-
-      } else if (foodUnit === KCAL_KG) {
-        return `${Math.round(min/density * 1000)} - ${Math.round(max/density * 1000)} grams`
-
-      } else if (foodUnit === KCAL_CUP) {
-        return `${Utils.truncateNumber(min/density)} - ${Utils.truncateNumber(max/density)} cups`
-      }
-    } else {
-      if (foodUnit === KCAL_G) {
-        return `${Math.round(min/density)} grams`
-
-      } else if (foodUnit === KCAL_KG) {
-        return `${Math.round(min/density * 1000)} grams`
-
-      } else if (foodUnit === KCAL_CUP) {
-        return `${Utils.truncateNumber(min/density)} cups`
-      }
-    }
-
-    return '';
   }
 
   const handleAgeChange = (value: string) => {
@@ -208,12 +175,6 @@ function App() {
     setWeightInput(val);
   }
 
-  const handleFoodInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.currentTarget.value;
-    // setSubmitEnabled(!!val);
-    setFoodInput(val);
-  }
-
   return (
     <div className='App d-flex'>
       <Container id='app-container'>
@@ -223,6 +184,9 @@ function App() {
         <Card className='border-standard app-card px-3 mb-4'>
           <Row>
             <Form onSubmit={handleSubmit}>
+
+              {/* <DogGroup /> */}
+
               <h1 className='mt-2'>dog</h1>
               <Row className='mb-4 mt-2 justify-content-center'>
                 <Col className='col-6 col-sm-4'>
@@ -307,7 +271,13 @@ function App() {
                 : null
               }
 
-              <FoodGroup foodUnit={foodUnit} onInputChange={handleFoodInputChange} onUnitChange={(unit: string) => setFoodUnit(unit)}/>
+              <FoodGroup 
+                min={caloriesMin}
+                max={caloriesMax}
+                // foodUnit={foodUnit}
+                // onUnitChange={(unit: string) => setFoodUnit(unit)}
+                onResultChange={(result: string) => setFoodResult(result)}
+              />
 
               <button type='submit' id='submitButton' className='border-standard mb-3' disabled={!submitEnabled}>Submit</button>
             </Form>
