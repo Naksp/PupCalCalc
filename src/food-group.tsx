@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Form, Container, Row, ButtonGroup, ToggleButton, Col, InputGroup, DropdownButton, Card } from 'react-bootstrap';
+import { Form, Row, Col, InputGroup, DropdownButton } from 'react-bootstrap';
 import DropdownItem from "react-bootstrap/esm/DropdownItem";
 import Utils from "./Util";
 
@@ -22,29 +23,31 @@ function FoodGroup(props: {
   useEffect(() => {
     if (foodInput) {
       props.onResultChange(buildFoodResult(Number(foodInput), props.min, props.max));
+    } else {
+      props.onResultChange('');
     }
   }, [props.min, props.max, foodInput, foodUnit])
 
   const buildFoodResult = (density: number, min: number, max?: number): string => {
     if (max && max >= 0) {
       if (foodUnit === KCAL_G) {
-        return `${Math.round(min / density)} - ${Math.round(max / density)} grams`
+        return `${Math.round(min / density)} - ${Math.round(max / density)} grams/day`
 
       } else if (foodUnit === KCAL_KG) {
-        return `${Math.round(min / density * 1000)} - ${Math.round(max / density * 1000)} grams`
+        return `${Math.round(min / density * 1000)} - ${Math.round(max / density * 1000)} grams/day`
 
       } else if (foodUnit === KCAL_CUP) {
-        return `${Utils.truncateNumber(min / density)} - ${Utils.truncateNumber(max / density)} cups`
+        return `${Utils.truncateNumber(min / density)} - ${Utils.truncateNumber(max / density)} cups/day`
       }
     } else {
       if (foodUnit === KCAL_G) {
-        return `${Math.round(min / density)} grams`
+        return `${Math.round(min / density)} grams/day`
 
       } else if (foodUnit === KCAL_KG) {
-        return `${Math.round(min / density * 1000)} grams`
+        return `${Math.round(min / density * 1000)} grams/day`
 
       } else if (foodUnit === KCAL_CUP) {
-        return `${Utils.truncateNumber(min / density)} cups`
+        return `${Utils.truncateNumber(min / density)} cups/day`
       }
     }
 

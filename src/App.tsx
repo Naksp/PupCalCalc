@@ -7,13 +7,13 @@ import DogGroup from './dog-group';
 
 function App() {
 
-  const [caloriesResult, setCaloriesResult] = useState<string>('___ calories');
+  const [caloriesResult, setCaloriesResult] = useState<string>('');
   const [caloriesMin, setCaloriesMin] = useState<number>(0);
   const [caloriesMax, setCaloriesMax] = useState<number>(-1);
 
   const [foodResult, setFoodResult] = useState<string>('');
 
-  const [finalCaloriesResult, setFinalCaloriesResult] = useState<string>('___ calories');
+  const [finalCaloriesResult, setFinalCaloriesResult] = useState<string>('');
   const [finalFoodResult, setFinalFoodResult] = useState<string>('');
 
   const [submitEnabled, setSubmitEnabled] = useState<boolean>(false);

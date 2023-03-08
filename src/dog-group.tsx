@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Form, Container, Row, ButtonGroup, ToggleButton, Col, InputGroup, DropdownButton, Card } from 'react-bootstrap';
 import DropdownItem from 'react-bootstrap/esm/DropdownItem';
@@ -5,6 +6,8 @@ import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 const PUPPY_0_TO_4_MONTS = 'puppy_0_to_4_months';
 const PUPPY_4_TO_12_MONTHS = 'puppy_4_to_12_months';
 const ADULT = 'adult';
+const KG = 'kg';
+const LBS = 'lbs';
 
 const Multipliers = {
   PUPPY_0_TO_4_MONTS: 3.0,
@@ -23,9 +26,6 @@ const Multipliers = {
   WEIGHT_GAIN_MAX: 1.8,
 }
 
-const KG = 'kg';
-const LBS = 'lbs';
-
 // Radios
 const ageRadios = [
   { name: '<4 months', value: PUPPY_0_TO_4_MONTS },
@@ -35,7 +35,6 @@ const ageRadios = [
 
 const activityRadios = [
   { name: 'Inactive', value: 'inactive' },
-  // { name: 'Moderately active', value: 'moderatelyActive'},
   { name: 'Average', value: 'moderatelyActive' },
   { name: 'Active', value: 'active' },
 ];
@@ -55,7 +54,8 @@ function DogGroup(props: {
 
   const [weightInput, setWeightInput] = useState<string>('');
   const [weightUnit, setWeightUnit] = useState<string>(LBS);
-  const [caloriesResult, setCaloriesResult] = useState<string>('___ calories');
+  // const [caloriesResult, setCaloriesResult] = useState<string>('___ calories');
+  const [caloriesResult, setCaloriesResult] = useState<string>('');
   const [caloriesMin, setCaloriesMin] = useState<number>(0);
   const [caloriesMax, setCaloriesMax] = useState<number>(-1);
 
@@ -97,7 +97,7 @@ function DogGroup(props: {
       setCaloriesMax(-1);
     }
 
-    setCaloriesResult(`${result} calories`);
+    setCaloriesResult(`${result} calories/day`);
   }, [activityRadioValue, isAdult, multiplier, weightInput]);
 
   const caclulateRer = (weight: number): number => {
