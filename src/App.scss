@@ -6,6 +6,7 @@ $theme-colors: (
   "secondary": #33FFF1
 );
 
+$color-primary: map-get($map: $theme-colors, $key: "primary");
 $color-dark-grey: #333;
 $color-medium-grey: #aaa;
 $color-light-grey: #bbb;
@@ -14,7 +15,7 @@ $color-green: #00FF47;
 
 $color-primary-active: #36e275;
 $color-outline: $color-dark-grey;
-$color-green-active: map-get($map: $theme-colors, $key: "primary");
+$color-green-active: $color-primary;
 // $color-background: #FFF9E0;
 $color-background: #FFF2C2;
 $color-logo: #5757FF;
@@ -22,6 +23,8 @@ $color-logo: #5757FF;
 $border-standard-width: 4px;
 $border-standard-color: $color-outline;
 $border-standard-radius: 1.15rem;
+
+$text-small: 0.75rem;
 
 @include media-breakpoint-up(sm) {
   .button-standard {
@@ -76,7 +79,7 @@ ul {
 }
 
 .optional-text {
-  font-size: 0.75rem;
+  font-size: $text-small;
   padding-left: 1.5rem;
   margin-top: -0.2rem !important;
   color: $color-light-grey;
@@ -114,18 +117,70 @@ ul {
   margin-bottom: 1rem;
 }
 
+#food-transition-switch {
+  height: 1.15rem;
+  border-color: $color-dark-grey;
+  border-width: $border-standard-width;
+  fill: $color-dark-grey !important;
+  color: $color-dark-grey !important;
+  background-image: url("./assets/circle.svg");
+  
+  &:checked {
+    border-color: $color-dark-grey;
+    background-color: $color-primary;
+  }
+}
+
+#transition-switch-container {
+  color: $color-dark-grey;
+
+  label {
+    margin-left: 5px;
+  } 
+}
+
 .form-control::placeholder {
   color: $color-light-grey !important;
 }
 
 #weightInput,
 #foodInput {
+  color: $color-dark-grey;
   border-top-left-radius: $border-standard-radius;
   border-bottom-left-radius: $border-standard-radius;
 
   border-top-width: $border-standard-width;
   border-left-width: $border-standard-width;
   border-bottom-width: $border-standard-width;
+  border-right-width: 2px;
+
+  border-color: $border-standard-color;
+
+  font-weight: 700 !important;
+}
+
+#oldFoodInput {
+  color: $color-dark-grey;
+  border-top-left-radius: $border-standard-radius;
+  border-bottom-left-radius: $border-standard-radius;
+
+  border-top-width: $border-standard-width;
+  border-left-width: $border-standard-width;
+  border-bottom-width: $border-standard-width;
+  border-right-width: 2px;
+
+  border-color: $border-standard-color;
+
+  font-weight: 700 !important;
+}
+
+#newFoodInput {
+  color: $color-dark-grey;
+
+  border-top-width: $border-standard-width;
+  border-left-width: $border-standard-width;
+  border-bottom-width: $border-standard-width;
+  border-left-width: 1px;
   border-right-width: 2px;
 
   border-color: $border-standard-color;

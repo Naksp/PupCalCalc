@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Form, Container, Row, ButtonGroup, ToggleButton, Col, InputGroup, DropdownButton, Card } from 'react-bootstrap';
+import { Form, Row, ButtonGroup, ToggleButton, Col, InputGroup, DropdownButton } from 'react-bootstrap';
 import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 
 const PUPPY_0_TO_4_MONTS = 'puppy_0_to_4_months';
