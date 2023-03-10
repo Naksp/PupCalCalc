@@ -4,6 +4,7 @@ import {Form, Container, Row, Card} from 'react-bootstrap';
 import './App.scss';
 import FoodGroup from './food-group';
 import DogGroup from './dog-group';
+import FoodTransitionResult from './food-transition-result';
 
 function App() {
 
@@ -12,9 +13,12 @@ function App() {
   const [caloriesMax, setCaloriesMax] = useState<number>(-1);
 
   const [foodResult, setFoodResult] = useState<string>('');
+  const [foodTransitionMode, setFoodTransitionMode] = useState<boolean>(false);
+  const [foodTransitionData, setFoodTransitionData] = useState<number[]>([]);
 
   const [finalCaloriesResult, setFinalCaloriesResult] = useState<string>('');
   const [finalFoodResult, setFinalFoodResult] = useState<string>('');
+  const [finalFoodTransitionData, setFinalFoodTransitionData] = useState<number[]>([]);
 
   const [submitEnabled, setSubmitEnabled] = useState<boolean>(false);
 
@@ -24,6 +28,7 @@ function App() {
     if (submitEnabled) {
       setFinalCaloriesResult(caloriesResult);
       setFinalFoodResult(foodResult);
+      setFinalFoodTransitionData(foodTransitionData);
     }
   }
 
@@ -48,13 +53,18 @@ function App() {
                 min={caloriesMin}
                 max={caloriesMax}
                 onResultChange={(result: string) => setFoodResult(result)}
+                onTransitionModeChange={(enabled: boolean) => setFoodTransitionMode(enabled)}
+                onTransitionDataChange={(data: number[]) => setFoodTransitionData(data)}
               />
 
               <button type='submit' id='submitButton' className='border-standard mb-3' disabled={!submitEnabled}>Submit</button>
             </Form>
 
             <h1 id='calorie-result' className='mb-3'>{finalCaloriesResult}</h1>
-            <h1 id='food-result' className='mb-3'>{finalFoodResult}</h1>
+            {foodTransitionMode && finalFoodTransitionData.length > 0
+              ? <FoodTransitionResult display={!!finalCaloriesResult} data={finalFoodTransitionData}/>
+              : <h1 id='food-result' className='mb-3'>{finalFoodResult}</h1>
+            }
           </Row>
         </Card>
       </Container>

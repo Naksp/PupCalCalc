@@ -11,24 +11,31 @@ const KCAL_CUP = 'kcal/cup';
 function FoodGroup(props: {
   min: number,
   max?: number,
-  onResultChange: (result: string) => void
+  onResultChange: (result: string) => void,
+  onTransitionModeChange: (enabled: boolean) => void,
+  onTransitionDataChange: (data: number[]) => void,
 }) {
 
-  const ref = useRef(null);
-
   const [foodInput, setFoodInput] = useState<string>();
+  const [oldFoodInput, setOldFoodInput] = useState<string>();
+  const [newFoodInput, setNewFoodInput] = useState<string>();
+
   const [foodUnit, setFoodUnit] = useState<string>(KCAL_KG);
   const [transitionMode, setTransitionMode] = useState<boolean>(false);
 
   useEffect(() => {
-    if (foodInput) {
-      props.onResultChange(buildFoodResult(Number(foodInput), props.min, props.max));
+    if (!transitionMode && foodInput) {
+      props.onResultChange(buildFoodResult(props.min, props.max));
+    } else if (transitionMode && oldFoodInput && newFoodInput) {
+      props.onTransitionDataChange(buildFoodTransitionData())
+
     } else {
       props.onResultChange('');
     }
-  }, [props.min, props.max, foodInput, foodUnit])
+  }, [props.min, props.max, foodInput, oldFoodInput, newFoodInput, foodUnit, transitionMode]);
 
-  const buildFoodResult = (density: number, min: number, max?: number): string => {
+  const buildFoodResult = (min: number, max?: number): string => {
+    const density = Number(foodInput);
     if (max && max >= 0) {
       if (foodUnit === KCAL_G) {
         return `${Math.round(min / density)} - ${Math.round(max / density)} grams/day`
@@ -52,33 +59,71 @@ function FoodGroup(props: {
     }
 
     return '';
-  }
+  };
 
   const handleFoodInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const targetId = e.currentTarget.id;
     const val = e.currentTarget.value;
-    setFoodInput(val);
-  }
+    if (targetId === 'foodInput') {
+      setFoodInput(val);
+    } else if (targetId === 'oldFoodInput') {
+      setOldFoodInput(val);
+    } else if (targetId === 'newFoodInput') {
+      setNewFoodInput(val);
+    }
+  };
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTransitionMode(!transitionMode);
-  }
+  useEffect(() => {
+    if (transitionMode) {
+      setOldFoodInput(foodInput);
+      props.onTransitionModeChange(true);
 
-  // useEffect(() => {
-  //   console.log(transitionMode);
+      const el = document.getElementById('newFoodInput') as HTMLInputElement;
+      if (newFoodInput && el) {
+        el.value = newFoodInput;
+      }
 
-  // }, [transitionMode]);
+    } else {
+      setFoodInput(oldFoodInput);
+      props.onTransitionModeChange(false);
+
+    }
+  }, [transitionMode]);
+
+  const buildFoodTransitionData = (): number[] => {
+    var data: number[] = [];
+
+    const oldVal = Number(oldFoodInput);
+    const newVal = Number(newFoodInput);
+
+    // Total cals * pct / food density = grams of food/day
+
+    data.push(Math.round(props.min * 0.75 / oldVal * 1000));
+    data.push(Math.round(props.min * 0.25 / newVal * 1000));
+
+    data.push(Math.round(props.min * 0.50 / oldVal * 1000));
+    data.push(Math.round(props.min * 0.50 / newVal * 1000));
+
+    data.push(Math.round(props.min * 0.25 / oldVal * 1000));
+    data.push(Math.round(props.min * 0.75 / newVal * 1000));
+
+    data.push(Math.round(props.min / newVal * 1000));
+
+    data.push(newVal);
+
+    return data;
+  };
 
   return (
     <div>
       <h1>food</h1>
       <Row id="transition-switch-container" className="d-flex justify-content-center mb-2">
         <Form.Switch
-        checked={transitionMode}
-        onChange={() => setTransitionMode(!transitionMode)}
-        className="d-flex justify-content-center"
-        id="food-transition-switch"
-        label="Transition"
-        ref={ref}/>
+          checked={transitionMode}
+          onChange={() => setTransitionMode(!transitionMode)}
+          className="d-flex justify-content-center"
+          id="food-transition-switch"
+          label="Transition" />
       </Row>
 
       {transitionMode ?
@@ -86,8 +131,8 @@ function FoodGroup(props: {
           <Col className='col'>
             <Row className='mb-0 mx-1'>
               <InputGroup className='mb-0 px-0'>
-                <Form.Control id='oldFoodInput' type='number' step='any' placeholder='old' /*onChange={handleFoodInputChange}*/ />
-                <Form.Control id='newFoodInput' type='number' step='any' placeholder='new' /*onChange={handleFoodInputChange}*/ />
+                <Form.Control id='oldFoodInput' type='number' step='any' placeholder='old' onChange={handleFoodInputChange} />
+                <Form.Control id='newFoodInput' type='number' step='any' placeholder='new' onChange={handleFoodInputChange} />
                 <DropdownButton id='foodDropdown' title={foodUnit}>
                   <DropdownItem onClick={() => setFoodUnit(KCAL_KG)}>{KCAL_KG}</DropdownItem>
                   <DropdownItem onClick={() => setFoodUnit(KCAL_G)}>{KCAL_G}</DropdownItem>
