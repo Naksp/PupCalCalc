@@ -54,7 +54,6 @@ function DogGroup(props: {
 
   const [weightInput, setWeightInput] = useState<string>('');
   const [weightUnit, setWeightUnit] = useState<string>(LBS);
-  // const [caloriesResult, setCaloriesResult] = useState<string>('___ calories');
   const [caloriesResult, setCaloriesResult] = useState<string>('');
   const [caloriesMin, setCaloriesMin] = useState<number>(0);
   const [caloriesMax, setCaloriesMax] = useState<number>(-1);
@@ -169,7 +168,7 @@ function DogGroup(props: {
 
   useEffect(() => {
     if (ageRadioValue === ADULT) {
-      props.setSubmitEnabled(activityRadioValue !== '' && neuteredRadioValue !== '');
+      props.setSubmitEnabled(activityRadioValue !== '' && neuteredRadioValue !== '' && !!weightInput);
     } else if (weightInput) {
       props.setSubmitEnabled(true);
     }
