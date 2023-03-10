@@ -14,11 +14,11 @@ function App() {
 
   const [foodResult, setFoodResult] = useState<string>('');
   const [foodTransitionMode, setFoodTransitionMode] = useState<boolean>(false);
-  const [foodTransitionData, setFoodTransitionData] = useState<number[]>([]);
+  const [foodTransitionData, setFoodTransitionData] = useState<string[]>([]);
 
   const [finalCaloriesResult, setFinalCaloriesResult] = useState<string>('');
   const [finalFoodResult, setFinalFoodResult] = useState<string>('');
-  const [finalFoodTransitionData, setFinalFoodTransitionData] = useState<number[]>([]);
+  const [finalFoodTransitionData, setFinalFoodTransitionData] = useState<string[]>([]);
 
   const [submitEnabled, setSubmitEnabled] = useState<boolean>(false);
 
@@ -54,7 +54,7 @@ function App() {
                 max={caloriesMax}
                 onResultChange={(result: string) => setFoodResult(result)}
                 onTransitionModeChange={(enabled: boolean) => setFoodTransitionMode(enabled)}
-                onTransitionDataChange={(data: number[]) => setFoodTransitionData(data)}
+                onTransitionDataChange={(data: string[]) => setFoodTransitionData(data)}
               />
 
               <button type='submit' id='submitButton' className='border-standard mb-3' disabled={!submitEnabled}>Submit</button>

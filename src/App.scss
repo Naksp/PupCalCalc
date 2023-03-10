@@ -145,7 +145,7 @@ ul {
 
 #weightInput,
 #foodInput {
-  color: $color-dark-grey;
+  color: $color-dark-grey !important;
   border-top-left-radius: $border-standard-radius;
   border-bottom-left-radius: $border-standard-radius;
 
@@ -191,12 +191,12 @@ ul {
 #weightDropdown {
   border-top-right-radius: $border-standard-radius;
   border-bottom-right-radius: $border-standard-radius;
-
   border-top-width: $border-standard-width;
   border-right-width: $border-standard-width;
   border-bottom-width: $border-standard-width;
-
   border-color: $border-standard-color;
+
+  color: $color-dark-grey;
 
   width: 4rem;
 
@@ -266,6 +266,10 @@ input[type=number] {
 #calorie-result,
 #food-result {
   font-weight: 900 !important;
+}
+
+#food-transition-result-container {
+  color: $color-dark-grey;
 }
 
 

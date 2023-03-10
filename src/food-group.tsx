@@ -13,7 +13,7 @@ function FoodGroup(props: {
   max?: number,
   onResultChange: (result: string) => void,
   onTransitionModeChange: (enabled: boolean) => void,
-  onTransitionDataChange: (data: number[]) => void,
+  onTransitionDataChange: (data: string[]) => void,
 }) {
 
   const [foodInput, setFoodInput] = useState<string>();
@@ -90,26 +90,92 @@ function FoodGroup(props: {
     }
   }, [transitionMode]);
 
-  const buildFoodTransitionData = (): number[] => {
-    var data: number[] = [];
+  const buildFoodTransitionData = (): string[] => {
+    var data: string[] = [];
 
     const oldVal = Number(oldFoodInput);
     const newVal = Number(newFoodInput);
 
     // Total cals * pct / food density = grams of food/day
 
-    data.push(Math.round(props.min * 0.75 / oldVal * 1000));
-    data.push(Math.round(props.min * 0.25 / newVal * 1000));
+    if (props.max && props.max > 0) {
+      if (foodUnit === KCAL_KG) {
+        data.push(`${Math.round(props.min * 0.75 / oldVal * 1000)} - ${Math.round(props.max * 0.75 / oldVal * 1000)}g`);
+        data.push(`${Math.round(props.min * 0.25 / newVal * 1000)} - ${Math.round(props.max * 0.25 / newVal * 1000)}g`);
+                                                                  
+        data.push(`${Math.round(props.min * 0.50 / oldVal * 1000)} - ${Math.round(props.max * 0.50 / oldVal * 1000)}g`);
+        data.push(`${Math.round(props.min * 0.50 / newVal * 1000)} - ${Math.round(props.max * 0.50 / newVal * 1000)}g`);
+                                                                  
+        data.push(`${Math.round(props.min * 0.25 / oldVal * 1000)} - ${Math.round(props.max * 0.25 / oldVal * 1000)}g`);
+        data.push(`${Math.round(props.min * 0.75 / newVal * 1000)} - ${Math.round(props.max * 0.75 / newVal * 1000)}g`);
 
-    data.push(Math.round(props.min * 0.50 / oldVal * 1000));
-    data.push(Math.round(props.min * 0.50 / newVal * 1000));
+        data.push(`${Math.round(props.min / newVal * 1000)} - ${Math.round(props.max / newVal * 1000)}g`);
 
-    data.push(Math.round(props.min * 0.25 / oldVal * 1000));
-    data.push(Math.round(props.min * 0.75 / newVal * 1000));
+      } else if (foodUnit === KCAL_G) {
+        data.push(`${Math.round(props.min * 0.75 / oldVal)} - ${Math.round(props.max * 0.75 / oldVal)}g`);
+        data.push(`${Math.round(props.min * 0.25 / newVal)} - ${Math.round(props.max * 0.25 / newVal)}g`);
+                                                           
+        data.push(`${Math.round(props.min * 0.50 / oldVal)} - ${Math.round(props.max * 0.50 / oldVal)}g`);
+        data.push(`${Math.round(props.min * 0.50 / newVal)} - ${Math.round(props.max * 0.50 / newVal)}g`);
+                                                           
+        data.push(`${Math.round(props.min * 0.25 / oldVal)} - ${Math.round(props.max * 0.25 / oldVal)}g`);
+        data.push(`${Math.round(props.min * 0.75 / newVal)} - ${Math.round(props.max * 0.75 / newVal)}g`);
 
-    data.push(Math.round(props.min / newVal * 1000));
+        data.push(`${Math.round(props.min / newVal)} - ${Math.round(props.max / newVal)}g`);
 
-    data.push(newVal);
+      } else if (foodUnit === KCAL_CUP) {
+        data.push(`${Utils.truncateNumber(props.min * 0.75 / oldVal)} - ${Utils.truncateNumber(props.max * 0.75 / oldVal)}cups`);
+        data.push(`${Utils.truncateNumber(props.min * 0.25 / newVal)} - ${Utils.truncateNumber(props.max * 0.25 / newVal)}cups`);
+                                                           
+        data.push(`${Utils.truncateNumber(props.min * 0.50 / oldVal)} - ${Utils.truncateNumber(props.max * 0.50 / oldVal)}cups`);
+        data.push(`${Utils.truncateNumber(props.min * 0.50 / newVal)} - ${Utils.truncateNumber(props.max * 0.50 / newVal)}cups`);
+                                                           
+        data.push(`${Utils.truncateNumber(props.min * 0.25 / oldVal)} - ${Utils.truncateNumber(props.max * 0.25 / oldVal)}cups`);
+        data.push(`${Utils.truncateNumber(props.min * 0.75 / newVal)} - ${Utils.truncateNumber(props.max * 0.75 / newVal)}cups`);
+
+        data.push(`${Utils.truncateNumber(props.min / newVal)} - ${Utils.truncateNumber(props.max / newVal)}cups`);
+
+      }
+
+    } else {
+      if (foodUnit === KCAL_KG) {
+        data.push(`${Math.round(props.min * 0.75 / oldVal * 1000)}g`);
+        data.push(`${Math.round(props.min * 0.25 / newVal * 1000)}g`);
+                                                                  
+        data.push(`${Math.round(props.min * 0.50 / oldVal * 1000)}g`);
+        data.push(`${Math.round(props.min * 0.50 / newVal * 1000)}g`);
+                                                                  
+        data.push(`${Math.round(props.min * 0.25 / oldVal * 1000)}g`);
+        data.push(`${Math.round(props.min * 0.75 / newVal * 1000)}g`);
+
+        data.push(`${Math.round(props.min / newVal * 1000)}g`);
+
+      } else if (foodUnit === KCAL_G) {
+        data.push(`${Math.round(props.min * 0.75 / oldVal)}g`);
+        data.push(`${Math.round(props.min * 0.25 / newVal)}g`);
+                                                           
+        data.push(`${Math.round(props.min * 0.50 / oldVal)}g`);
+        data.push(`${Math.round(props.min * 0.50 / newVal)}g`);
+                                                           
+        data.push(`${Math.round(props.min * 0.25 / oldVal)}g`);
+        data.push(`${Math.round(props.min * 0.75 / newVal)}g`);
+
+        data.push(`${Math.round(props.min / newVal)}g`);
+
+      } else if (foodUnit === KCAL_CUP) {
+        data.push(`${Utils.truncateNumber(props.min * 0.75 / oldVal)}cups`);
+        data.push(`${Utils.truncateNumber(props.min * 0.25 / newVal)}cups`);
+                                                           
+        data.push(`${Utils.truncateNumber(props.min * 0.50 / oldVal)}cups`);
+        data.push(`${Utils.truncateNumber(props.min * 0.50 / newVal)}cups`);
+                                                           
+        data.push(`${Utils.truncateNumber(props.min * 0.25 / oldVal)}cups`);
+        data.push(`${Utils.truncateNumber(props.min * 0.75 / newVal)}cups`);
+
+        data.push(`${Utils.truncateNumber(props.min / newVal)}cups`);
+
+      }
+    }
 
     return data;
   };
