@@ -117,7 +117,8 @@ ul {
   margin-bottom: 1rem;
 }
 
-#food-transition-switch {
+#food-transition-switch,
+#treat-switch {
   height: 1.15rem;
   border-color: $color-dark-grey;
   border-width: $border-standard-width;
@@ -131,7 +132,8 @@ ul {
   }
 }
 
-#transition-switch-container {
+#transition-switch-container,
+#treat-switch-container {
   color: $color-dark-grey;
 
   label {
@@ -272,5 +274,20 @@ input[type=number] {
   color: $color-dark-grey;
 }
 
+#treats-check {
+  border-width: $border-standard-width;
+  border-color: $border-standard-color;
+
+  &:checked {
+    background-color: $color-primary;
+  }
+  
+}
+
+.custom-switch-container,
+.custom-switch {
+  display: flex !important;
+  justify-content: center !important;
+}
 
 @import "../node_modules/bootstrap/scss/bootstrap.scss";

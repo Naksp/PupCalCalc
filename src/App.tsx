@@ -1,26 +1,37 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {Form, Container, Row, Card} from 'react-bootstrap';
 import './App.scss';
 import FoodGroup from './food-group';
 import DogGroup from './dog-group';
 import FoodTransitionResult from './food-transition-result';
+import { CaloriePair } from './interfaces';
 
 function App() {
 
   const [caloriesResult, setCaloriesResult] = useState<string>('');
-  const [caloriesMin, setCaloriesMin] = useState<number>(0);
-  const [caloriesMax, setCaloriesMax] = useState<number>(-1);
+  const [calories, setCalories] = useState<CaloriePair>({min: -1, max: -1});
 
   const [foodResult, setFoodResult] = useState<string>('');
   const [foodTransitionMode, setFoodTransitionMode] = useState<boolean>(false);
   const [foodTransitionData, setFoodTransitionData] = useState<string[]>([]);
+
+  const [includeTreats, setIncludeTreats] = useState<boolean>(false);
+
+  const [treatsResult, setTreatsResult] = useState<string>('');
+  const [finalTreatsResult, setFinalTreatsResult] = useState<string>('');
 
   const [finalCaloriesResult, setFinalCaloriesResult] = useState<string>('');
   const [finalFoodResult, setFinalFoodResult] = useState<string>('');
   const [finalFoodTransitionData, setFinalFoodTransitionData] = useState<string[]>([]);
 
   const [submitEnabled, setSubmitEnabled] = useState<boolean>(false);
+
+  // const handleCaloriesChange = (calories: CaloriePair) => {
+  //   setCalories(calories);
+  //   setCaloriesMin(min);
+  //   setCaloriesMax(max);
+  // };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,6 +40,7 @@ function App() {
       setFinalCaloriesResult(caloriesResult);
       setFinalFoodResult(foodResult);
       setFinalFoodTransitionData(foodTransitionData);
+      setFinalTreatsResult(includeTreats ? treatsResult : '');
     }
   }
 
@@ -44,27 +56,44 @@ function App() {
 
               <DogGroup
                 setSubmitEnabled={(enabled: boolean) => setSubmitEnabled(enabled)}
-                onCaloriesMinChange={(min: number) => setCaloriesMin(min)}
-                onCaloriesMaxChange={(max: number) => setCaloriesMax(max)}
-                onCaloriesResultChange={(result: string) => setCaloriesResult(result)}
+                onBalancedCaloriesChange={(calories: CaloriePair) => {setCalories(calories); console.log(calories)}}
+                onBalancedCaloriesResultChange={(result: string) => setCaloriesResult(result)}
+                includeTreats={includeTreats}
+                onTreatsCaloriesResultChange={(result: string) => setTreatsResult(result)}
               />
 
               <FoodGroup 
-                min={caloriesMin}
-                max={caloriesMax}
+                calories={calories}
                 onResultChange={(result: string) => setFoodResult(result)}
                 onTransitionModeChange={(enabled: boolean) => setFoodTransitionMode(enabled)}
                 onTransitionDataChange={(data: string[]) => setFoodTransitionData(data)}
               />
 
+              <Row id="treat-switch-container" className="custom-switch-container mb-2">
+                <Form.Switch
+                  checked={includeTreats}
+                  onChange={() => setIncludeTreats(!includeTreats)}
+                  className="custom-switch"
+                  id="treat-switch"
+                  label="include treats" />
+              </Row>
+
               <button type='submit' id='submitButton' className='border-standard mb-3' disabled={!submitEnabled}>Submit</button>
+
             </Form>
 
             <h1 id='calorie-result' className='mb-3'>{finalCaloriesResult}</h1>
-            {foodTransitionMode && finalFoodTransitionData.length > 0
-              ? <FoodTransitionResult display={!!finalCaloriesResult} data={finalFoodTransitionData}/>
-              : <h1 id='food-result' className='mb-3'>{finalFoodResult}</h1>
+
+            { finalTreatsResult ? (
+              <h1 id="treat-result">{finalTreatsResult}</h1>
+            ) : null
             }
+
+            {foodTransitionMode && finalFoodTransitionData.length > 0 ? (
+              <FoodTransitionResult display={!!finalCaloriesResult} data={finalFoodTransitionData}/>
+            ) : (
+              <h1 id='food-result' className='mb-3'>{finalFoodResult}</h1>
+            )}
           </Row>
         </Card>
       </Container>

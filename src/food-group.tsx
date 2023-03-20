@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useRef, useState } from "react";
-import { Form, Row, Col, InputGroup, DropdownButton, ButtonGroup, ToggleButton } from 'react-bootstrap';
+import React, { useEffect, useState } from "react";
+import { Form, Row, Col, InputGroup, DropdownButton } from 'react-bootstrap';
 import DropdownItem from "react-bootstrap/esm/DropdownItem";
+import { CaloriePair } from "./interfaces";
 import Utils from "./Util";
 
 const KCAL_G = 'kcal/g';
@@ -9,8 +10,7 @@ const KCAL_KG = 'kcal/kg';
 const KCAL_CUP = 'kcal/cup';
 
 function FoodGroup(props: {
-  min: number,
-  max?: number,
+  calories: CaloriePair,
   onResultChange: (result: string) => void,
   onTransitionModeChange: (enabled: boolean) => void,
   onTransitionDataChange: (data: string[]) => void,
@@ -25,14 +25,14 @@ function FoodGroup(props: {
 
   useEffect(() => {
     if (!transitionMode && foodInput) {
-      props.onResultChange(buildFoodResult(props.min, props.max));
+      props.onResultChange(buildFoodResult(props.calories.min, props.calories.max));
     } else if (transitionMode && oldFoodInput && newFoodInput) {
       props.onTransitionDataChange(buildFoodTransitionData())
 
     } else {
       props.onResultChange('');
     }
-  }, [props.min, props.max, foodInput, oldFoodInput, newFoodInput, foodUnit, transitionMode]);
+  }, [props.calories.min, props.calories.max, foodInput, oldFoodInput, newFoodInput, foodUnit, transitionMode]);
 
   const buildFoodResult = (min: number, max?: number): string => {
     const density = Number(foodInput);
@@ -98,81 +98,81 @@ function FoodGroup(props: {
 
     // Total cals * pct / food density = grams of food/day
 
-    if (props.max && props.max > 0) {
+    if (props.calories.max && props.calories.max > 0) {
       if (foodUnit === KCAL_KG) {
-        data.push(`${Math.round(props.min * 0.75 / oldVal * 1000)} - ${Math.round(props.max * 0.75 / oldVal * 1000)}g`);
-        data.push(`${Math.round(props.min * 0.25 / newVal * 1000)} - ${Math.round(props.max * 0.25 / newVal * 1000)}g`);
+        data.push(`${Math.round(props.calories.min * 0.75 / oldVal * 1000)} - ${Math.round(props.calories.max * 0.75 / oldVal * 1000)}g`);
+        data.push(`${Math.round(props.calories.min * 0.25 / newVal * 1000)} - ${Math.round(props.calories.max * 0.25 / newVal * 1000)}g`);
                                                                   
-        data.push(`${Math.round(props.min * 0.50 / oldVal * 1000)} - ${Math.round(props.max * 0.50 / oldVal * 1000)}g`);
-        data.push(`${Math.round(props.min * 0.50 / newVal * 1000)} - ${Math.round(props.max * 0.50 / newVal * 1000)}g`);
+        data.push(`${Math.round(props.calories.min * 0.50 / oldVal * 1000)} - ${Math.round(props.calories.max * 0.50 / oldVal * 1000)}g`);
+        data.push(`${Math.round(props.calories.min * 0.50 / newVal * 1000)} - ${Math.round(props.calories.max * 0.50 / newVal * 1000)}g`);
                                                                   
-        data.push(`${Math.round(props.min * 0.25 / oldVal * 1000)} - ${Math.round(props.max * 0.25 / oldVal * 1000)}g`);
-        data.push(`${Math.round(props.min * 0.75 / newVal * 1000)} - ${Math.round(props.max * 0.75 / newVal * 1000)}g`);
+        data.push(`${Math.round(props.calories.min * 0.25 / oldVal * 1000)} - ${Math.round(props.calories.max * 0.25 / oldVal * 1000)}g`);
+        data.push(`${Math.round(props.calories.min * 0.75 / newVal * 1000)} - ${Math.round(props.calories.max * 0.75 / newVal * 1000)}g`);
 
-        data.push(`${Math.round(props.min / newVal * 1000)} - ${Math.round(props.max / newVal * 1000)}g`);
+        data.push(`${Math.round(props.calories.min / newVal * 1000)} - ${Math.round(props.calories.max / newVal * 1000)}g`);
 
       } else if (foodUnit === KCAL_G) {
-        data.push(`${Math.round(props.min * 0.75 / oldVal)} - ${Math.round(props.max * 0.75 / oldVal)}g`);
-        data.push(`${Math.round(props.min * 0.25 / newVal)} - ${Math.round(props.max * 0.25 / newVal)}g`);
+        data.push(`${Math.round(props.calories.min * 0.75 / oldVal)} - ${Math.round(props.calories.max * 0.75 / oldVal)}g`);
+        data.push(`${Math.round(props.calories.min * 0.25 / newVal)} - ${Math.round(props.calories.max * 0.25 / newVal)}g`);
                                                            
-        data.push(`${Math.round(props.min * 0.50 / oldVal)} - ${Math.round(props.max * 0.50 / oldVal)}g`);
-        data.push(`${Math.round(props.min * 0.50 / newVal)} - ${Math.round(props.max * 0.50 / newVal)}g`);
+        data.push(`${Math.round(props.calories.min * 0.50 / oldVal)} - ${Math.round(props.calories.max * 0.50 / oldVal)}g`);
+        data.push(`${Math.round(props.calories.min * 0.50 / newVal)} - ${Math.round(props.calories.max * 0.50 / newVal)}g`);
                                                            
-        data.push(`${Math.round(props.min * 0.25 / oldVal)} - ${Math.round(props.max * 0.25 / oldVal)}g`);
-        data.push(`${Math.round(props.min * 0.75 / newVal)} - ${Math.round(props.max * 0.75 / newVal)}g`);
+        data.push(`${Math.round(props.calories.min * 0.25 / oldVal)} - ${Math.round(props.calories.max * 0.25 / oldVal)}g`);
+        data.push(`${Math.round(props.calories.min * 0.75 / newVal)} - ${Math.round(props.calories.max * 0.75 / newVal)}g`);
 
-        data.push(`${Math.round(props.min / newVal)} - ${Math.round(props.max / newVal)}g`);
+        data.push(`${Math.round(props.calories.min / newVal)} - ${Math.round(props.calories.max / newVal)}g`);
 
       } else if (foodUnit === KCAL_CUP) {
-        data.push(`${Utils.truncateNumber(props.min * 0.75 / oldVal)} - ${Utils.truncateNumber(props.max * 0.75 / oldVal)}cups`);
-        data.push(`${Utils.truncateNumber(props.min * 0.25 / newVal)} - ${Utils.truncateNumber(props.max * 0.25 / newVal)}cups`);
+        data.push(`${Utils.truncateNumber(props.calories.min * 0.75 / oldVal)} - ${Utils.truncateNumber(props.calories.max * 0.75 / oldVal)}cups`);
+        data.push(`${Utils.truncateNumber(props.calories.min * 0.25 / newVal)} - ${Utils.truncateNumber(props.calories.max * 0.25 / newVal)}cups`);
                                                            
-        data.push(`${Utils.truncateNumber(props.min * 0.50 / oldVal)} - ${Utils.truncateNumber(props.max * 0.50 / oldVal)}cups`);
-        data.push(`${Utils.truncateNumber(props.min * 0.50 / newVal)} - ${Utils.truncateNumber(props.max * 0.50 / newVal)}cups`);
+        data.push(`${Utils.truncateNumber(props.calories.min * 0.50 / oldVal)} - ${Utils.truncateNumber(props.calories.max * 0.50 / oldVal)}cups`);
+        data.push(`${Utils.truncateNumber(props.calories.min * 0.50 / newVal)} - ${Utils.truncateNumber(props.calories.max * 0.50 / newVal)}cups`);
                                                            
-        data.push(`${Utils.truncateNumber(props.min * 0.25 / oldVal)} - ${Utils.truncateNumber(props.max * 0.25 / oldVal)}cups`);
-        data.push(`${Utils.truncateNumber(props.min * 0.75 / newVal)} - ${Utils.truncateNumber(props.max * 0.75 / newVal)}cups`);
+        data.push(`${Utils.truncateNumber(props.calories.min * 0.25 / oldVal)} - ${Utils.truncateNumber(props.calories.max * 0.25 / oldVal)}cups`);
+        data.push(`${Utils.truncateNumber(props.calories.min * 0.75 / newVal)} - ${Utils.truncateNumber(props.calories.max * 0.75 / newVal)}cups`);
 
-        data.push(`${Utils.truncateNumber(props.min / newVal)} - ${Utils.truncateNumber(props.max / newVal)}cups`);
+        data.push(`${Utils.truncateNumber(props.calories.min / newVal)} - ${Utils.truncateNumber(props.calories.max / newVal)}cups`);
 
       }
 
     } else {
       if (foodUnit === KCAL_KG) {
-        data.push(`${Math.round(props.min * 0.75 / oldVal * 1000)}g`);
-        data.push(`${Math.round(props.min * 0.25 / newVal * 1000)}g`);
+        data.push(`${Math.round(props.calories.min * 0.75 / oldVal * 1000)}g`);
+        data.push(`${Math.round(props.calories.min * 0.25 / newVal * 1000)}g`);
                                                                   
-        data.push(`${Math.round(props.min * 0.50 / oldVal * 1000)}g`);
-        data.push(`${Math.round(props.min * 0.50 / newVal * 1000)}g`);
+        data.push(`${Math.round(props.calories.min * 0.50 / oldVal * 1000)}g`);
+        data.push(`${Math.round(props.calories.min * 0.50 / newVal * 1000)}g`);
                                                                   
-        data.push(`${Math.round(props.min * 0.25 / oldVal * 1000)}g`);
-        data.push(`${Math.round(props.min * 0.75 / newVal * 1000)}g`);
+        data.push(`${Math.round(props.calories.min * 0.25 / oldVal * 1000)}g`);
+        data.push(`${Math.round(props.calories.min * 0.75 / newVal * 1000)}g`);
 
-        data.push(`${Math.round(props.min / newVal * 1000)}g`);
+        data.push(`${Math.round(props.calories.min / newVal * 1000)}g`);
 
       } else if (foodUnit === KCAL_G) {
-        data.push(`${Math.round(props.min * 0.75 / oldVal)}g`);
-        data.push(`${Math.round(props.min * 0.25 / newVal)}g`);
+        data.push(`${Math.round(props.calories.min * 0.75 / oldVal)}g`);
+        data.push(`${Math.round(props.calories.min * 0.25 / newVal)}g`);
                                                            
-        data.push(`${Math.round(props.min * 0.50 / oldVal)}g`);
-        data.push(`${Math.round(props.min * 0.50 / newVal)}g`);
+        data.push(`${Math.round(props.calories.min * 0.50 / oldVal)}g`);
+        data.push(`${Math.round(props.calories.min * 0.50 / newVal)}g`);
                                                            
-        data.push(`${Math.round(props.min * 0.25 / oldVal)}g`);
-        data.push(`${Math.round(props.min * 0.75 / newVal)}g`);
+        data.push(`${Math.round(props.calories.min * 0.25 / oldVal)}g`);
+        data.push(`${Math.round(props.calories.min * 0.75 / newVal)}g`);
 
-        data.push(`${Math.round(props.min / newVal)}g`);
+        data.push(`${Math.round(props.calories.min / newVal)}g`);
 
       } else if (foodUnit === KCAL_CUP) {
-        data.push(`${Utils.truncateNumber(props.min * 0.75 / oldVal)}cups`);
-        data.push(`${Utils.truncateNumber(props.min * 0.25 / newVal)}cups`);
+        data.push(`${Utils.truncateNumber(props.calories.min * 0.75 / oldVal)}cups`);
+        data.push(`${Utils.truncateNumber(props.calories.min * 0.25 / newVal)}cups`);
                                                            
-        data.push(`${Utils.truncateNumber(props.min * 0.50 / oldVal)}cups`);
-        data.push(`${Utils.truncateNumber(props.min * 0.50 / newVal)}cups`);
+        data.push(`${Utils.truncateNumber(props.calories.min * 0.50 / oldVal)}cups`);
+        data.push(`${Utils.truncateNumber(props.calories.min * 0.50 / newVal)}cups`);
                                                            
-        data.push(`${Utils.truncateNumber(props.min * 0.25 / oldVal)}cups`);
-        data.push(`${Utils.truncateNumber(props.min * 0.75 / newVal)}cups`);
+        data.push(`${Utils.truncateNumber(props.calories.min * 0.25 / oldVal)}cups`);
+        data.push(`${Utils.truncateNumber(props.calories.min * 0.75 / newVal)}cups`);
 
-        data.push(`${Utils.truncateNumber(props.min / newVal)}cups`);
+        data.push(`${Utils.truncateNumber(props.calories.min / newVal)}cups`);
 
       }
     }
@@ -183,16 +183,16 @@ function FoodGroup(props: {
   return (
     <div>
       <h1>food</h1>
-      <Row id="transition-switch-container" className="d-flex justify-content-center mb-2">
+      <Row id="transition-switch-container" className="custom-switch-container mb-2">
         <Form.Switch
           checked={transitionMode}
           onChange={() => setTransitionMode(!transitionMode)}
-          className="d-flex justify-content-center"
+          className="custom-switch"
           id="food-transition-switch"
-          label="Transition" />
+          label="transition" />
       </Row>
 
-      {transitionMode ?
+      {transitionMode ? (
         <Row className='justify-content-center mb-3'>
           <Col className='col'>
             <Row className='mb-0 mx-1'>
@@ -208,7 +208,7 @@ function FoodGroup(props: {
             </Row>
           </Col>
         </Row>
-      :
+      ) : (
         <Row className='justify-content-center mb-3'>
           <Col className='col-8 col-sm-5'>
             <Row className='mb-0'>
@@ -226,7 +226,7 @@ function FoodGroup(props: {
             </Row>
           </Col>
         </Row>
-      }
+      )}
     </div>
   );
 }
