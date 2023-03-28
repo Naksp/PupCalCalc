@@ -26,6 +26,8 @@ function App() {
   const [finalFoodTransitionData, setFinalFoodTransitionData] = useState<string[]>([]);
 
   const [submitEnabled, setSubmitEnabled] = useState<boolean>(false);
+  
+  const[updateRequested, setUpdateRequested] = useState<boolean>(false);
 
   // const handleCaloriesChange = (calories: CaloriePair) => {
   //   setCalories(calories);
@@ -33,8 +35,22 @@ function App() {
   //   setCaloriesMax(max);
   // };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  useEffect(() => {
+    if (!updateRequested) {
+      return;
+    }
+
+    setFinalCaloriesResult(caloriesResult);
+    setFinalFoodResult(foodResult);
+    setFinalFoodTransitionData(foodTransitionData);
+    setFinalTreatsResult(includeTreats ? treatsResult : '');
+    
+    setUpdateRequested(false);
+
+  }, [foodResult, treatsResult]);
+
+  const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
+    e?.preventDefault();
 
     if (submitEnabled) {
       setFinalCaloriesResult(caloriesResult);
@@ -69,31 +85,33 @@ function App() {
                 onTransitionDataChange={(data: string[]) => setFoodTransitionData(data)}
               />
 
+
+              <button type='submit' id='submitButton' className='border-standard mb-3' disabled={!submitEnabled}>Submit</button>
+
               <Row id="treat-switch-container" className="custom-switch-container mb-2">
                 <Form.Switch
                   checked={includeTreats}
-                  onChange={() => setIncludeTreats(!includeTreats)}
+                  onChange={() => {setIncludeTreats(!includeTreats); setUpdateRequested(updateRequested => !updateRequested);}}
                   className="custom-switch"
                   id="treat-switch"
                   label="include treats" />
               </Row>
 
-              <button type='submit' id='submitButton' className='border-standard mb-3' disabled={!submitEnabled}>Submit</button>
-
             </Form>
 
             <h1 id='calorie-result' className='mb-3'>{finalCaloriesResult}</h1>
 
-            { finalTreatsResult ? (
-              <h1 id="treat-result">{finalTreatsResult}</h1>
-            ) : null
-            }
-
             {foodTransitionMode && finalFoodTransitionData.length > 0 ? (
               <FoodTransitionResult display={!!finalCaloriesResult} data={finalFoodTransitionData}/>
             ) : (
-              <h1 id='food-result' className='mb-3'>{finalFoodResult}</h1>
+              <h1 id='food-result' className={`${finalFoodResult ? 'mb-3' : 'mb-0'}`}>{finalFoodResult}</h1>
             )}
+
+            { finalTreatsResult ? (
+              <h1 id="treat-result" className='mb-3'>{finalTreatsResult}</h1>
+            ) : null
+            }
+            {updateRequested ? <p>true</p> : <p>false</p>}
           </Row>
         </Card>
       </Container>

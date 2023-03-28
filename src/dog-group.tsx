@@ -56,11 +56,9 @@ function DogGroup(props: {
 
   const [weightInput, setWeightInput] = useState<string>('');
   const [weightUnit, setWeightUnit] = useState<string>(LBS);
-  // const [balancedCaloriesResult, setBalancedCaloriesResult] = useState<string>('');
+
   const [balancedCalories, setBalancedCalories] = useState<CaloriePair>({min: -1, max: -1});
   const [treatsCalories, setTreatsCalories] = useState<CaloriePair>({min: -1, max: -1});
-
-  // const [treatsCaloriesResult, setTreatsCaloriesResult] = useState<string>('');
 
   const [multiplier, setMultiplier] = useState<number>(3.0);
   const [isAdult, setIsAdult] = useState<boolean>(false);
@@ -72,33 +70,35 @@ function DogGroup(props: {
 
   useEffect(() => {
 
+    var min: number;
+    var max: number;
+
     // Display calorie range if activity level is 'active'
     if (isAdult && activityRadioValue === 'active') {
-      const min = Math.round(calculateCalories(Multipliers.ACTIVE_MIN));
-      const max = Math.round(calculateCalories(Multipliers.ACTIVE_MAX));
-      setBalancedCalories({min: min, max: max});
-      setTreatsCalories({min: min * 0.1, max: max * 0.1});
+      min = Math.round(calculateCalories(Multipliers.ACTIVE_MIN));
+      max = Math.round(calculateCalories(Multipliers.ACTIVE_MAX));
 
     } else if (isAdult && activityRadioValue === 'inactive') {
-      const min = Math.round(calculateCalories(Multipliers.INACTIVE_MIN));
-      const max = Math.round(calculateCalories(Multipliers.INACTIVE_MAX));
-      setBalancedCalories({min: min, max: max});
-      setTreatsCalories({min: min * 0.1, max: max * 0.1});
+      min = Math.round(calculateCalories(Multipliers.INACTIVE_MIN));
+      max = Math.round(calculateCalories(Multipliers.INACTIVE_MAX));
 
     } else {
-      const min = Math.round(calculateCalories(multiplier));
-      setBalancedCalories({min: min, max: -1});
-      setTreatsCalories({min: min * 0.1, max: -1});
+      min = Math.round(calculateCalories(multiplier));
+      max = -1
 
     }
+
+    if (props.includeTreats) {
+      setBalancedCalories({min: Math.round(min * 0.9), max: Math.round(max * 0.9)});
+      setTreatsCalories({min: min * 0.1, max: max * 0.1});
+    } else {
+      setBalancedCalories({min: min, max: max});
+    }
+
   }, [activityRadioValue, isAdult, multiplier, weightInput, props.includeTreats]);
 
   const calculateCalories = (multiplier: number): number => {
     const rer: number = caclulateRer(Number(weightInput));
-
-    if (props.includeTreats) {
-      return rer * multiplier * 0.9;
-    }
 
     return rer * multiplier;
   }
@@ -119,10 +119,10 @@ function DogGroup(props: {
 
     var {min, max} = balancedCalories;
 
-    if (props.includeTreats) {
-      min *= Math.round(0.9);
-      max *= Math.round(0.9);
-    }
+    // if (props.includeTreats) {
+    //   min *= Math.round(0.9);
+    //   max *= Math.round(0.9);
+    // }
 
     if (max > 0) {
       props.onBalancedCaloriesResultChange(`${min.toString()} - ${max.toString()} food calories/day`);
