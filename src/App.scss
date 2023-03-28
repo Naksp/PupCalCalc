@@ -55,6 +55,11 @@ h1 {
   border: $color-outline;
 }
 
+// Removes blue outline on inputs
+input:focus {
+  box-shadow: none !important;
+}
+
 ul {
   display: flex;
   justify-content: flex-start;

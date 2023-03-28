@@ -26,28 +26,6 @@ function App() {
   const [finalFoodTransitionData, setFinalFoodTransitionData] = useState<string[]>([]);
 
   const [submitEnabled, setSubmitEnabled] = useState<boolean>(false);
-  
-  const[updateRequested, setUpdateRequested] = useState<boolean>(false);
-
-  // const handleCaloriesChange = (calories: CaloriePair) => {
-  //   setCalories(calories);
-  //   setCaloriesMin(min);
-  //   setCaloriesMax(max);
-  // };
-
-  useEffect(() => {
-    if (!updateRequested) {
-      return;
-    }
-
-    setFinalCaloriesResult(caloriesResult);
-    setFinalFoodResult(foodResult);
-    setFinalFoodTransitionData(foodTransitionData);
-    setFinalTreatsResult(includeTreats ? treatsResult : '');
-    
-    setUpdateRequested(false);
-
-  }, [foodResult, treatsResult]);
 
   const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
@@ -86,16 +64,16 @@ function App() {
               />
 
 
-              <button type='submit' id='submitButton' className='border-standard mb-3' disabled={!submitEnabled}>Submit</button>
-
-              <Row id="treat-switch-container" className="custom-switch-container mb-2">
+              <Row id="treat-switch-container" className="custom-switch-container mb-3">
                 <Form.Switch
                   checked={includeTreats}
-                  onChange={() => {setIncludeTreats(!includeTreats); setUpdateRequested(updateRequested => !updateRequested);}}
+                  onChange={() => setIncludeTreats(!includeTreats)}
                   className="custom-switch"
                   id="treat-switch"
                   label="include treats" />
               </Row>
+
+              <button type='submit' id='submitButton' className='border-standard mb-3' disabled={!submitEnabled}>Submit</button>
 
             </Form>
 
@@ -111,7 +89,6 @@ function App() {
               <h1 id="treat-result" className='mb-3'>{finalTreatsResult}</h1>
             ) : null
             }
-            {updateRequested ? <p>true</p> : <p>false</p>}
           </Row>
         </Card>
       </Container>

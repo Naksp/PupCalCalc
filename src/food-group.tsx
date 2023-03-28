@@ -209,7 +209,7 @@ function FoodGroup(props: {
           </Col>
         </Row>
       ) : (
-        <Row className='justify-content-center mb-3'>
+        <Row className='justify-content-center mb-2'>
           <Col className='col-8 col-sm-5'>
             <Row className='mb-0'>
               <InputGroup className='mb-0'>
