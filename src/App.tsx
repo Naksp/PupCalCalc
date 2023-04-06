@@ -6,6 +6,7 @@ import FoodGroup from './food-group';
 import DogGroup from './dog-group';
 import FoodTransitionResult from './food-transition-result';
 import { CaloriePair } from './interfaces';
+import Footer from './footer';
 
 function App() {
 
@@ -44,7 +45,7 @@ function App() {
         <Row>
           <h1 className='logo-text'>Dog Calorie Calculator</h1>
         </Row>
-        <Card className='border-standard app-card px-3 mb-4'>
+        <Card className='border-standard app-card px-3 mb-2'>
           <Row>
             <Form onSubmit={handleSubmit}>
 
@@ -91,6 +92,7 @@ function App() {
             }
           </Row>
         </Card>
+        <Footer />
       </Container>
     </div>
   );
