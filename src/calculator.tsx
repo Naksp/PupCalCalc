@@ -87,9 +87,6 @@ function Calculator() {
         ) : null
         }
       </Row>
-      <div>
-        <Link to='/learn'>Learn</Link>
-      </div>
     </Container>
   );
 }

@@ -7,7 +7,7 @@ import { ReactComponent as CodeIcon} from './assets/code.svg';
 function Footer() {
 
   return (
-    <Container className='footer-container'>
+    <Container className='footer-container mb-5'>
       <Row className='justify-content-center'>
         <Col className='col text-end px-3'>
           <span id='link-code'>

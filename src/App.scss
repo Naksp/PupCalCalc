@@ -12,6 +12,7 @@ $color-medium-grey: #aaa;
 $color-light-grey: #bbb;
 // $color-green: #59FF97;
 $color-green: #00FF47;
+$color-link: #bb9c2a;
 
 $color-primary-active: #36e275;
 $color-outline: $color-dark-grey;
@@ -81,6 +82,26 @@ ul {
   font-family: "sofia-pro-soft", sans-serif;
   font-weight: 900;
   font-style: normal;
+}
+
+.nav-link {
+  color: $color-dark-grey;
+  .link-active {
+    // text-decoration: underline;
+    // text-decoration-thickness: 5px !important;
+
+    &::after {
+      content: '';
+      height: 5px;
+      background: $color-link;
+      border-radius: 5px;
+      display: block;
+    }
+  }
+  
+  &:hover {
+    color: $color-link !important;
+  }
 }
 
 .optional-text {
