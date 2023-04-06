@@ -1,10 +1,5 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCode, faAddressBook, faGlobe } from '@fortawesome/free-solid-svg-icons';
-import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import './footer.scss';
-import { faEnvelope, } from '@fortawesome/free-regular-svg-icons';
-import { ReactComponent as GlobeIcon} from './assets/globe.svg';
 import { ReactComponent as MailIcon} from './assets/mail.svg';
 import { ReactComponent as CodeIcon} from './assets/code.svg';
 
