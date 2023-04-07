@@ -3,22 +3,22 @@
 $color-footer-link: #bb9c2a;
 $color-hover: #2627FF;
 
-a {
-  color: $color-footer-link;
-  text-decoration: none;
+#footer-container {
+  // color: $color-medium-grey !important;
 
-  &:active,
-  &:hover {
-    color: #2627FF;
+  a {
+    color: $color-footer-link;
+    text-decoration: none;
+
+    &:active,
+    &:hover {
+      color: #2627FF;
+    }
   }
 }
 
 svg {
   overflow: visible;
-}
-
-.footer-container {
-  color: $color-medium-grey !important;
 }
 
 

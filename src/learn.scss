@@ -1,0 +1,14 @@
+@import "./App.scss";
+
+#learn-container {
+	a {
+		color: $color-link;
+		&:hover {
+			color: #2627FF;
+		}
+	}
+}
+.learn-page-heading {
+	font-size: 1.75rem;
+	font-weight: 700;
+}
