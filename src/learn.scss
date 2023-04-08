@@ -8,7 +8,32 @@
 		}
 	}
 }
+
 .learn-page-heading {
 	font-size: 1.75rem;
 	font-weight: 700;
+}
+
+.indent {
+	text-indent: 15%;
+}
+
+table,
+th,
+td {
+	border: 3px solid;
+}
+
+table {
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius: 12px;
+}
+
+td {
+	font-weight: 500;
+}
+
+#k-factor-table {
+	margin-left: 15%;
 }
