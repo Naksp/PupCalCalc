@@ -12,7 +12,7 @@ $color-medium-grey: #aaa;
 $color-light-grey: #bbb;
 // $color-green: #59FF97;
 $color-green: #00FF47;
-$color-link: #bb9c2a;
+$color-link: #CCA000;
 
 $color-primary-active: #36e275;
 $color-outline: $color-dark-grey;
@@ -89,7 +89,7 @@ ul {
 }
 
 .nav-link {
-  color: $color-dark-grey;
+  color: $color-dark-grey !important;
   .link-active {
     // text-decoration: underline;
     // text-decoration-thickness: 5px !important;

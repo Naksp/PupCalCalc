@@ -200,7 +200,7 @@ function DogGroup(props: {
 		<div>
 			<h1 className='mt-2'>dog</h1>
 			<Row className='mb-4 mt-2 justify-content-center'>
-				<Col className='col-6 col-sm-4'>
+				<Col className='col-8 col-sm-6'>
 					<InputGroup>
 						<Form.Control id='weightInput' type='number' step='any' placeholder='##' onChange={handleWeightInputChange} />
 						<DropdownButton id='weightDropdown' title={weightUnit}>

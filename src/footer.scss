@@ -7,7 +7,7 @@ $color-hover: #2627FF;
   // color: $color-medium-grey !important;
 
   a {
-    color: $color-footer-link;
+    color: $color-link;
     text-decoration: none;
 
     &:active,
@@ -25,13 +25,13 @@ svg {
 
 #link-mail,
 #link-code {
-  color: $color-footer-link;
+  color: $color-link;
   padding-right: 10px;
 
   line,
   rect,
   path {
-    stroke: $color-footer-link !important;
+    stroke: $color-link !important;
   }
 
   &:hover {
@@ -46,8 +46,8 @@ svg {
 #link-website {
   path,
   line {
-    fill: $color-footer-link !important;
-    stroke: $color-footer-link !important;
+    fill: $color-link !important;
+    stroke: $color-link !important;
   }
 
   &:hover {

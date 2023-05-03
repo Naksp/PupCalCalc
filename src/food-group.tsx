@@ -210,7 +210,7 @@ function FoodGroup(props: {
         </Row>
       ) : (
         <Row className='justify-content-center mb-2'>
-          <Col className='col-8 col-sm-5'>
+          <Col className='col-8 col-sm-6'>
             <Row className='mb-0'>
               <InputGroup className='mb-0'>
                 <Form.Control id='foodInput' type='number' step='any' placeholder='##' onChange={handleFoodInputChange} />
