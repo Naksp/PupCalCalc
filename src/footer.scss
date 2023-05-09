@@ -10,10 +10,10 @@ $color-hover: #2627FF;
     color: $color-link;
     text-decoration: none;
 
-    &:active,
-    &:hover {
-      color: #2627FF;
-    }
+    // &:active,
+    // &:hover {
+    //   color: #2627FF;
+    // }
   }
 }
 
@@ -34,13 +34,13 @@ svg {
     stroke: $color-link !important;
   }
 
-  &:hover {
-    line,
-    rect,
-    path {
-      stroke: $color-hover !important;
-    }
-  }
+  // &:hover {
+  //   line,
+  //   rect,
+  //   path {
+  //     stroke: $color-hover !important;
+  //   }
+  // }
 }
 
 #link-website {
@@ -50,11 +50,11 @@ svg {
     stroke: $color-link !important;
   }
 
-  &:hover {
-    path,
-    line {
-      fill: $color-hover !important;
-      stroke: $color-hover !important;
-    }
-  }
+  // &:hover {
+  //   path,
+  //   line {
+  //     fill: $color-hover !important;
+  //     stroke: $color-hover !important;
+  //   }
+  // }
 }
