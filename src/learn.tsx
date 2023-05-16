@@ -82,7 +82,7 @@ function Learn() {
 					<Col>
 						<h1 className='learn-page-heading'>How accurate is the calculation?</h1>
 
-						<p>Not very. .</p>
+						<p>Not very. Using this method, the actual caloric requirements for your dog can vary as much as 50% from the estimation. This estimate should only serve as a baseline, and you should work with your vet and regularly check your dogs body condition in order to provide the most appropriate diet for your dog.</p>
 					</Col>
 				</Row>
 
