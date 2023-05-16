@@ -3,13 +3,17 @@
 $color-footer-link: #bb9c2a;
 $color-hover: #2627FF;
 
-a {
-  color: $color-footer-link;
-  text-decoration: none;
+#footer-container {
+  // color: $color-medium-grey !important;
 
-  &:active,
-  &:hover {
-    color: #2627FF;
+  a {
+    color: $color-link;
+    text-decoration: none;
+
+    // &:active,
+    // &:hover {
+    //   color: #2627FF;
+    // }
   }
 }
 
@@ -17,44 +21,40 @@ svg {
   overflow: visible;
 }
 
-.footer-container {
-  color: $color-medium-grey !important;
-}
-
 
 
 #link-mail,
 #link-code {
-  color: $color-footer-link;
+  color: $color-link;
   padding-right: 10px;
 
   line,
   rect,
   path {
-    stroke: $color-footer-link !important;
+    stroke: $color-link !important;
   }
 
-  &:hover {
-    line,
-    rect,
-    path {
-      stroke: $color-hover !important;
-    }
-  }
+  // &:hover {
+  //   line,
+  //   rect,
+  //   path {
+  //     stroke: $color-hover !important;
+  //   }
+  // }
 }
 
 #link-website {
   path,
   line {
-    fill: $color-footer-link !important;
-    stroke: $color-footer-link !important;
+    fill: $color-link !important;
+    stroke: $color-link !important;
   }
 
-  &:hover {
-    path,
-    line {
-      fill: $color-hover !important;
-      stroke: $color-hover !important;
-    }
-  }
+  // &:hover {
+  //   path,
+  //   line {
+  //     fill: $color-hover !important;
+  //     stroke: $color-hover !important;
+  //   }
+  // }
 }
