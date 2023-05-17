@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Container, Card} from 'react-bootstrap';
-import './App.scss';
+import './app.scss';
 import Footer from './footer';
 import { Routes, Route } from 'react-router-dom';
 import Calculator from './calculator';
@@ -15,7 +15,7 @@ ReactGA.initialize(MEASUREMENT_ID);
 
 function App() {
   return(
-    <div className='App d-flex'>
+    <div className='app d-flex'>
       <Container id='app-container'>
 
         <Header />

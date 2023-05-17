@@ -52,6 +52,7 @@ function DogGroup(props: {
 	onBalancedCaloriesResultChange: (result: string) => void,
 	includeTreats: boolean,
 	onTreatsCaloriesResultChange: (result: string) => void,
+	setDisplayWarning: (display: boolean, label: string) => void,
 }) {
 
 	const [weightInput, setWeightInput] = useState<string>('');
@@ -163,10 +164,13 @@ function DogGroup(props: {
 		setActivityRadioValue(value);
 		if (value === activityRadios[0].value) {
 			setMultiplier(Multipliers.INACTIVE_MIN);
+			props.setDisplayWarning(true, 'inactive');
 		} else if (value === activityRadios[1].value) {
 			setMultiplier(isNeutered ? Multipliers.NEUTERED_ADULT : Multipliers.INTACT_ADULT);
+			props.setDisplayWarning(false, '');
 		} else {
 			setMultiplier(Multipliers.ACTIVE_MAX);
+			props.setDisplayWarning(true, 'active');
 		}
 	}
 

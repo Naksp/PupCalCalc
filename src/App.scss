@@ -11,6 +11,7 @@ $color-medium-grey: #aaa;
 $color-light-grey: #bbb;
 $color-green: #00FF47;
 $color-link: #CCA000;
+$color-warning: #FF0D0F;
 
 $color-primary-active: #36e275;
 $color-outline: $color-dark-grey;
@@ -43,7 +44,7 @@ p {
   font-weight: 500;
 }
 
-.App {
+.app {
   background-color: $color-background;
   text-align: center;
   font-family: sofia-pro-soft, sans-serif;
@@ -315,13 +316,19 @@ input[type=number] {
   &:checked {
     background-color: $color-primary;
   }
-  
 }
 
 .custom-switch-container,
 .custom-switch {
   display: flex !important;
   justify-content: center !important;
+}
+
+#warning-container {
+  border: solid;
+  border-width: $border-standard-width;
+  border-radius: $border-standard-radius;
+  border-color: $color-warning;
 }
 
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
