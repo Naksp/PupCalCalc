@@ -4,14 +4,14 @@ import { Form, Row, ButtonGroup, ToggleButton, Col, InputGroup, DropdownButton }
 import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 import { CaloriePair } from "./interfaces";
 
-const PUPPY_0_TO_4_MONTS = 'puppy_0_to_4_months';
+const PUPPY_0_TO_4_MONTHS = 'puppy_0_to_4_months';
 const PUPPY_4_TO_12_MONTHS = 'puppy_4_to_12_months';
 const ADULT = 'adult';
 const KG = 'kg';
 const LBS = 'lbs';
 
 const Multipliers = {
-	PUPPY_0_TO_4_MONTS: 3.0,
+	PUPPY_0_TO_4_MONTHS: 3.0,
 	PUPPY_4_TO_12_MONTHS: 2.0,
 
 	INTACT_ADULT: 1.8,
@@ -29,7 +29,7 @@ const Multipliers = {
 
 // Radios
 const ageRadios = [
-	{ name: '<4 months', value: PUPPY_0_TO_4_MONTS },
+	{ name: '<4 months', value: PUPPY_0_TO_4_MONTHS },
 	{ name: '4-12 months', value: PUPPY_4_TO_12_MONTHS },
 	{ name: '>1 year', value: ADULT }
 ];
@@ -98,12 +98,12 @@ function DogGroup(props: {
 	}, [activityRadioValue, isAdult, multiplier, weightInput, props.includeTreats]);
 
 	const calculateCalories = (multiplier: number): number => {
-		const rer: number = caclulateRer(Number(weightInput));
+		const rer: number = calculateRer(Number(weightInput));
 
 		return rer * multiplier;
 	}
 
-	const caclulateRer = (weight: number): number => {
+	const calculateRer = (weight: number): number => {
 		if (weightUnit === LBS) {
 			weight = weight / 2.205;
 		}
@@ -141,8 +141,8 @@ function DogGroup(props: {
 		} else {
 			setIsAdult(false);
 
-			if (value === PUPPY_0_TO_4_MONTS) {
-				setMultiplier(Multipliers.PUPPY_0_TO_4_MONTS);
+			if (value === PUPPY_0_TO_4_MONTHS) {
+				setMultiplier(Multipliers.PUPPY_0_TO_4_MONTHS);
 			} else {
 				setMultiplier(Multipliers.PUPPY_4_TO_12_MONTHS);
 			}

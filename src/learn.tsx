@@ -1,5 +1,8 @@
 import { Container, Row, Col, Table } from "react-bootstrap";
 import './learn.scss'
+import { useEffect } from "react";
+import ReactGA from 'react-ga4';
+import Utils from './Util'
 
 // Links
 const osuLink = 'https://vet.osu.edu/vmc/companion/our-services/nutrition-support-service/basic-calorie-calculator';
@@ -8,6 +11,11 @@ const canineHealthNutLink = 'https://thecaninehealthnut.com/your-dogs-nutritiona
 const spotOnTreatsLink = 'https://www.spotondogtraining.org/dog-treats';
 
 function Learn() {
+
+  useEffect(() => {
+    ReactGA.send({ hitType: 'pageview', page: '/learn', title: 'learn'});
+  }, []);
+
 	return (
 		<>
 			<Container id='learn-container' className='text-start my-3'>

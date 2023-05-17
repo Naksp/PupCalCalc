@@ -1,13 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from 'react';
-import { Form, Container, Row, Card } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Form, Container, Row } from 'react-bootstrap';
 import './App.scss';
 import FoodGroup from './food-group';
 import DogGroup from './dog-group';
 import FoodTransitionResult from './food-transition-result';
 import { CaloriePair } from './interfaces';
-import Footer from './footer';
-import { Link } from 'react-router-dom';
+import ReactGA from 'react-ga4';
 
 function Calculator() {
 
@@ -28,6 +27,10 @@ function Calculator() {
   const [finalFoodTransitionData, setFinalFoodTransitionData] = useState<string[]>([]);
 
   const [submitEnabled, setSubmitEnabled] = useState<boolean>(false);
+
+  useEffect(() => {
+    ReactGA.send({ hitType: 'pageview', page: '/', title: 'calculator'});
+  }, []);
 
   const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
