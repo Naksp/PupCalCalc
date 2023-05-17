@@ -29,7 +29,7 @@ function Calculator() {
   const [submitEnabled, setSubmitEnabled] = useState<boolean>(false);
 
   useEffect(() => {
-    ReactGA.send({ hitType: 'pageview', page: '/', title: 'calculator'});
+    ReactGA.send({ hitType: 'pageview', page: '/', title: 'Calculator Page'});
   }, []);
 
   const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {

@@ -2,4 +2,3 @@
 ## TODO
 - Active/inactive warning message
 - Tooltips?
-- Google analytics

@@ -3,9 +3,6 @@
 #learn-container {
 	a {
 		color: $color-link;
-		// &:hover {
-		// 	color: #2627FF;
-		// }
 	}
 	color: $color-dark-grey;
 }
@@ -27,17 +24,6 @@ p.center {
 	margin-right: auto;
 }
 
-// table,
-// th,
-// td {
-// 	// border: 3px solid;
-// }
-
-// table {
-// 	-moz-border-radius:10px;
-// 	-webkit-border-radius:10px;
-// 	border-radius: 12px;
-// }
 
 td {
 	font-weight: 500;
@@ -48,7 +34,6 @@ td {
 }
 
 #k-factor-table {
-	// margin-left: 37px;
 	overflow: visible;
 	width: 80%;
 	color: $color-dark-grey;

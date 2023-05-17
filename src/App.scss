@@ -1,7 +1,6 @@
 @import "~bootstrap/scss/bootstrap-grid.scss";
 
 $theme-colors: (
-  // "primary": #FFDC40,
   "primary": #FFC700,
   "secondary": #33FFF1
 );
@@ -10,14 +9,12 @@ $color-primary: map-get($map: $theme-colors, $key: "primary");
 $color-dark-grey: #333;
 $color-medium-grey: #aaa;
 $color-light-grey: #bbb;
-// $color-green: #59FF97;
 $color-green: #00FF47;
 $color-link: #CCA000;
 
 $color-primary-active: #36e275;
 $color-outline: $color-dark-grey;
 $color-green-active: $color-primary;
-// $color-background: #FFF9E0;
 $color-background: #FFF2C2;
 $color-logo: #5757FF;
 
@@ -90,10 +87,8 @@ ul {
 
 .nav-link {
   color: $color-dark-grey !important;
-  .link-active {
-    // text-decoration: underline;
-    // text-decoration-thickness: 5px !important;
 
+  .link-active {
     &::after {
       content: '';
       height: 5px;

@@ -13,7 +13,7 @@ const spotOnTreatsLink = 'https://www.spotondogtraining.org/dog-treats';
 function Learn() {
 
   useEffect(() => {
-    ReactGA.send({ hitType: 'pageview', page: '/learn', title: 'learn'});
+    ReactGA.send({ hitType: 'pageview', page: '/learn', title: 'Learn Page'});
   }, []);
 
 	return (
