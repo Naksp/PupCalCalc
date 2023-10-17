@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { Form, Container, Row, Col } from 'react-bootstrap';
-import './app.scss';
+import './App.scss';
 import FoodGroup from './food-group';
 import DogGroup from './dog-group';
 import FoodTransitionResult from './food-transition-result';

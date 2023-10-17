@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Container, Card} from 'react-bootstrap';
-import './app.scss';
+import './App.scss';
 import Footer from './footer';
 import { Routes, Route } from 'react-router-dom';
 import Calculator from './calculator';
