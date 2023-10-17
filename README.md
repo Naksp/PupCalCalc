@@ -1,4 +1,2 @@
 # Dog Calorie Calculator
-## TODO
-- Active/inactive warning message
-- Tooltips?
+A practical and educational tool for ensuring the health of your dog, created in collaboration with a professional dog trainer. Dog Calorie Calculator is a quick and simple way to plan your dog's meals, and learn more about their caloric needs.
