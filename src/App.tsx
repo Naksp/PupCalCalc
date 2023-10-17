@@ -10,7 +10,9 @@ import ReactGA from 'react-ga4';
 
 const MEASUREMENT_ID = 'G-RG23129EK6';
 
-ReactGA.initialize(MEASUREMENT_ID);
+if (process.env.NODE_ENV === 'production') {
+  ReactGA.initialize(MEASUREMENT_ID);
+}
 
 
 function App() {

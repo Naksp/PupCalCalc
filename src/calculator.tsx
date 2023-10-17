@@ -47,6 +47,10 @@ function Calculator() {
       setFinalTreatsResult(includeTreats ? treatsResult : '');
       setFinalDisplayWarning(displayWarning);
       setFinalWarningLabel(warningLabel);
+      ReactGA.event({
+        category: 'Form',
+        action: 'Submitted form',
+      })
     }
   }
 
