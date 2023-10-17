@@ -2,6 +2,9 @@
   "name": "dog-calorie-calculator",
   "version": "0.2.1",
   "private": true,
+  "engines": {
+    "npm": "10.x"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
