@@ -14,6 +14,7 @@ $color-link: #CCA000;
 $color-warning: #FF0D0F;
 
 $color-primary-active: #36e275;
+$color-primary-disabled: #ffe68d,;
 $color-outline: $color-dark-grey;
 $color-green-active: $color-primary;
 $color-background: #FFF2C2;
@@ -247,6 +248,26 @@ ul {
 }
 
 #foodDropdown {
+  &.no-radius {
+    background-color: $color-primary;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+
+    border-left-width: 0px;
+    border-right-width: 2px;
+
+    border-style: solid; 
+
+    &:disabled {
+      // background-color: $color-medium-grey;
+      background-color: $color-primary-disabled;
+      color: #666;
+      // &::after {
+      //   display: none;
+      // }
+    }
+  }
+
   border-top-right-radius: $border-standard-radius;
   border-bottom-right-radius: $border-standard-radius;
 
@@ -263,6 +284,42 @@ ul {
   li.active > a:hover,
   li.active > a:focus {
     background-color: #36e275;
+  }
+}
+
+#percentInput {
+  // border-top-right-radius: $border-standard-radius;
+  // border-bottom-right-radius: $border-standard-radius;
+
+  border-top-width: $border-standard-width;
+  border-right-width: 2px;
+  border-bottom-width: $border-standard-width;
+
+  color: $color-dark-grey;
+  border-color: $border-standard-color;
+
+  font-weight: 700 !important;
+
+  max-width: 3.5rem;
+}
+
+#percentLabel {
+  &:disabled {
+  background-color: $color-primary;
+
+  border-top-right-radius: $border-standard-radius;
+  border-bottom-right-radius: $border-standard-radius;
+
+  border-top-width: $border-standard-width;
+  border-right-width: $border-standard-width;
+  border-bottom-width: $border-standard-width;
+
+  color: $color-dark-grey !important;
+  border-color: $border-standard-color;
+
+  font-weight: 900 !important;
+
+  max-width: 3rem;
   }
 }
 

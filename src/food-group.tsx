@@ -70,13 +70,15 @@ function FoodGroup(props: {
 
       var resultString: string = '';
       // TODO change this after implementing actual percentages for inputs
-      const percent = 1/foodDataArray.length;
+      // const percent = 1/foodDataArray.length;
 
       for (let idx: number = 0; idx < foodDataArray.length; idx++) {
         const density = Number(foodDataArray[idx].density);
         if (!density) {
           continue;
         }
+
+        const percent = Number(foodDataArray[idx].percent) / 100;
 
         if (max && max >= 0) {
           if (foodUnit === KCAL_G) {
@@ -125,6 +127,15 @@ function FoodGroup(props: {
     newArray[idx].density = val;
 
     setFoodDataArray(newArray);
+  }
+
+  const handleFoodPercentChange = (idx: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.currentTarget.value;
+    const newArray = [...foodDataArray];
+    newArray[idx].percent = val;
+
+    setFoodDataArray(newArray);
+
   }
 
   // const handleFoodInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -310,17 +321,25 @@ function FoodGroup(props: {
         </Row>
       ) : (
         <Row className='justify-content-center mb-2'>
-          <Col className='col-8 col-sm-6'>
+          <Col className={foodDataArray.length > 1 ? 'col-11 col-sm-8' : 'col-8 col-sm-6'}>
             {foodDataArray.map((input, idx) => (
-              <Row key={idx} className='mb-0'>
+              <Row key={idx} className='mb-2'>
                 <InputGroup key={idx} id={`food-input${idx}`}className='mb-0'>
                   {/* <Form.Control id='foodInput' type='number' step='any' placeholder='##' onChange={handleFoodInputChange} /> */}
                   <Form.Control id='foodInput' type='number' step='any' placeholder='##' value={input.density ? input.density : ''} onChange={handleFoodInputChange(idx)}/>
-                  <DropdownButton disabled={idx > 0} id='foodDropdown' title={foodUnit}>
+                  <DropdownButton disabled={idx > 0} id='foodDropdown' bsPrefix={foodDataArray.length > 1 ? 'no-radius' : ''} title={foodUnit}>
                     <DropdownItem onClick={() => setFoodUnit(KCAL_KG)}>{KCAL_KG}</DropdownItem>
                     <DropdownItem onClick={() => setFoodUnit(KCAL_G)}>{KCAL_G}</DropdownItem>
                     <DropdownItem onClick={() => setFoodUnit(KCAL_CUP)}>{KCAL_CUP}</DropdownItem>
                   </DropdownButton>
+                  {foodDataArray.length > 1 ?
+                  <>
+                    <Form.Control id='percentInput' type='number' step='any' placeholder='##' value={input.percent ? input.percent : ''} onChange={handleFoodPercentChange(idx)}/>
+                    <Form.Control id='percentLabel' disabled type='text' step='any' value='%' />
+
+                  </>
+                    : null
+                  }
                 </InputGroup>
                 {idx > 0 ?
                 (<span>
