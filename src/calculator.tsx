@@ -62,7 +62,7 @@ function Calculator() {
 
             <DogGroup
               setSubmitEnabled={(enabled: boolean) => setSubmitEnabled(enabled)}
-              onBalancedCaloriesChange={(calories: CaloriePair) => { setCalories(calories); console.log(calories); }}
+              onBalancedCaloriesChange={(calories: CaloriePair) => setCalories(calories)}
               onBalancedCaloriesResultChange={(result: string) => setCaloriesResult(result)}
               includeTreats={includeTreats}
               onTreatsCaloriesResultChange={(result: string) => setTreatsResult(result)}
@@ -77,7 +77,7 @@ function Calculator() {
             />
 
 
-            <Row id="treat-switch-container" className="custom-switch-container mb-3">
+            <Row id="treat-switch-container" className="custom-switch-container mb-4">
               <Form.Switch
                 checked={includeTreats}
                 onChange={() => setIncludeTreats(!includeTreats)}
