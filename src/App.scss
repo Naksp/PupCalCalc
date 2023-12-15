@@ -24,7 +24,7 @@ $border-standard-width: 4px;
 $border-standard-color: $color-outline;
 $border-standard-radius: 1.15rem;
 
-$text-small: 0.75rem;
+$text-small: 0.85rem;
 
 @include media-breakpoint-up(sm) {
   .button-standard {
@@ -107,9 +107,10 @@ ul {
 
 .optional-text {
   font-size: $text-small;
-  padding-left: 1.5rem;
-  margin-top: -0.2rem !important;
-  color: $color-light-grey;
+  // padding-left: 1.5rem;
+  margin-top: -0.5rem !important;
+  margin-bottom: 0.5rem;
+  color: $color-medium-grey;
 }
 
 .border-standard {
@@ -262,9 +263,9 @@ ul {
       // background-color: $color-medium-grey;
       background-color: $color-primary-disabled;
       color: #666;
-      // &::after {
-      //   display: none;
-      // }
+      &::after {
+        display: none;
+      }
     }
   }
 
@@ -291,6 +292,7 @@ ul {
   // border-top-right-radius: $border-standard-radius;
   // border-bottom-right-radius: $border-standard-radius;
 
+  text-align: right;
   border-top-width: $border-standard-width;
   border-right-width: 2px;
   border-bottom-width: $border-standard-width;
@@ -322,6 +324,30 @@ ul {
   max-width: 3rem;
   }
 }
+
+.circle-button {
+  &.remove-input-button,
+  &.add-input-button {
+    height: 2.5em;
+    width: 2.5em;
+
+    display: flex;
+    align-items: center;
+
+    height: 2.5em;
+    width: 2.5em;
+
+    border-radius: 2em;
+    border-color: $border-standard-color;
+    border-width: $border-standard-width;
+  }
+}
+
+.remove-button-col {
+  padding-left: 0px !important;
+  padding-top: 2px;
+}
+
 
 // Disable buttons on weight input
 /* Chrome, Safari, Edge, Opera */

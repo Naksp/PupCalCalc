@@ -4,6 +4,8 @@ import { Form, Row, Col, InputGroup, DropdownButton, Button } from 'react-bootst
 import DropdownItem from "react-bootstrap/esm/DropdownItem";
 import { CaloriePair } from "./interfaces";
 import Utils from "./Util";
+import { ReactComponent as MinusIcon} from './assets/minus.svg';
+import { ReactComponent as PlusIcon} from './assets/plus.svg';
 
 const KCAL_G = 'kcal/g';
 const KCAL_KG = 'kcal/kg';
@@ -22,10 +24,9 @@ function FoodGroup(props: {
   onTransitionDataChange: (data: string[]) => void,
 }) {
 
-  // const [foodInput, setFoodInput] = useState<string>();
   const [oldFoodInput, setOldFoodInput] = useState<string>();
   const [newFoodInput, setNewFoodInput] = useState<string>();
-  const [foodDataArray, setFoodDataArray] = useState<foodData[]>([{density: '', percent: '', id: 0}]);
+  const [foodDataArray, setFoodDataArray] = useState<foodData[]>([{density: '', percent: '100', id: 0}]);
   const [nextInputId, setNextInputId] = useState<number>(1);
 
   const [foodUnit, setFoodUnit] = useState<string>(KCAL_KG);
@@ -69,8 +70,6 @@ function FoodGroup(props: {
     } else {
 
       var resultString: string = '';
-      // TODO change this after implementing actual percentages for inputs
-      // const percent = 1/foodDataArray.length;
 
       for (let idx: number = 0; idx < foodDataArray.length; idx++) {
         const density = Number(foodDataArray[idx].density);
@@ -137,18 +136,6 @@ function FoodGroup(props: {
     setFoodDataArray(newArray);
 
   }
-
-  // const handleFoodInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const targetId = e.currentTarget.id;
-  //   const val = e.currentTarget.value;
-  //   if (targetId === 'foodInput') {
-  //     setFoodInput(val);
-  //   } else if (targetId === 'oldFoodInput') {
-  //     setOldFoodInput(val);
-  //   } else if (targetId === 'newFoodInput') {
-  //     setNewFoodInput(val);
-  //   }
-  // };
 
   useEffect(() => {
     if (transitionMode) {
@@ -271,20 +258,14 @@ function FoodGroup(props: {
   };
 
   const addFoodInput = () => {
-    if (addFoodInput.length === 1) {
-      //TODO: Change input to include percent
-    } else {
-      
-      setFoodDataArray((prevArray) => [
-        ...prevArray,
-        { density: '', percent: '', id: nextInputId },
-      ]);
-      setNextInputId(nextInputId + 1);
-    }
+    setFoodDataArray((prevArray) => [
+      ...prevArray,
+      { density: '', percent: '', id: nextInputId },
+    ]);
+    setNextInputId(nextInputId + 1);
   }
 
   const removeFoodInput = (id: number) => {
-    console.log(`removing input ${id}`);
     setFoodDataArray(
       foodDataArray.filter( input => id !== input.id)
     );
@@ -294,6 +275,9 @@ function FoodGroup(props: {
   return (
     <div>
       <h1>food</h1>
+      <Row className='justify-content-center optional-text'>
+        this section is optional
+      </Row>
       <Row id="transition-switch-container" className="custom-switch-container mb-2">
         <Form.Switch
           checked={transitionMode}
@@ -321,39 +305,47 @@ function FoodGroup(props: {
         </Row>
       ) : (
         <Row className='justify-content-center mb-2'>
-          <Col className={foodDataArray.length > 1 ? 'col-11 col-sm-8' : 'col-8 col-sm-6'}>
+          <Col className={foodDataArray.length > 1 ? 'col-12 col-sm-9' : 'col-8 col-sm-6'}>
             {foodDataArray.map((input, idx) => (
               <Row key={idx} className='mb-2'>
-                <InputGroup key={idx} id={`food-input${idx}`}className='mb-0'>
-                  {/* <Form.Control id='foodInput' type='number' step='any' placeholder='##' onChange={handleFoodInputChange} /> */}
-                  <Form.Control id='foodInput' type='number' step='any' placeholder='##' value={input.density ? input.density : ''} onChange={handleFoodInputChange(idx)}/>
-                  <DropdownButton disabled={idx > 0} id='foodDropdown' bsPrefix={foodDataArray.length > 1 ? 'no-radius' : ''} title={foodUnit}>
-                    <DropdownItem onClick={() => setFoodUnit(KCAL_KG)}>{KCAL_KG}</DropdownItem>
-                    <DropdownItem onClick={() => setFoodUnit(KCAL_G)}>{KCAL_G}</DropdownItem>
-                    <DropdownItem onClick={() => setFoodUnit(KCAL_CUP)}>{KCAL_CUP}</DropdownItem>
-                  </DropdownButton>
-                  {foodDataArray.length > 1 ?
-                  <>
-                    <Form.Control id='percentInput' type='number' step='any' placeholder='##' value={input.percent ? input.percent : ''} onChange={handleFoodPercentChange(idx)}/>
-                    <Form.Control id='percentLabel' disabled type='text' step='any' value='%' />
+                <Col>
+                  <InputGroup key={idx} id={`food-input${idx}`}className='mb-0'>
+                    {/* <Form.Control id='foodInput' type='number' step='any' placeholder='##' onChange={handleFoodInputChange} /> */}
+                    <Form.Control id='foodInput' type='number' step='any' placeholder='##' value={input.density ? input.density : ''} onChange={handleFoodInputChange(idx)}/>
+                    <DropdownButton disabled={idx > 0} id='foodDropdown' bsPrefix={foodDataArray.length > 1 ? 'no-radius' : ''} title={foodUnit}>
+                      <DropdownItem onClick={() => setFoodUnit(KCAL_KG)}>{KCAL_KG}</DropdownItem>
+                      <DropdownItem onClick={() => setFoodUnit(KCAL_G)}>{KCAL_G}</DropdownItem>
+                      <DropdownItem onClick={() => setFoodUnit(KCAL_CUP)}>{KCAL_CUP}</DropdownItem>
+                    </DropdownButton>
+                    {foodDataArray.length > 1 ?
+                    <>
+                      <Form.Control id='percentInput' type='number' step='any' placeholder='##' value={input.percent ? input.percent : ''} onChange={handleFoodPercentChange(idx)}/>
+                      <Form.Control id='percentLabel' disabled type='text' step='any' value='%' />
 
-                  </>
-                    : null
-                  }
-                </InputGroup>
+                    </>
+                      : null
+                    }
+                  </InputGroup>
+                </Col>
                 {idx > 0 ?
-                (<span>
-                  <Button id={`button-${idx}`} onClick={() => removeFoodInput(input.id)}>-</Button>
-                </span>) : null}
+                (
+                  <Col className="col-2 remove-button-col">
+                    <Button id={`button-${idx}`} className='circle-button remove-input-button justify-content-center' onClick={() => removeFoodInput(input.id)}>
+                      <MinusIcon className='minus-icon'></MinusIcon>
+                    </Button>
+                  </Col>
+                ) : null}
               </Row>
             ))}
-            <Row className='justify-content-left optional-text'>
+            {/* <Row className='justify-content-left optional-text'>
               optional
+            </Row> */}
+            <Row className='d-flex justify-content-center'>
+              <Button className='circle-button add-input-button' onClick={addFoodInput}>
+                <PlusIcon id='plus-icon' className='plus-icon'></PlusIcon>
+              </Button>
             </Row>
           </Col>
-          <Row>
-            <Button onClick={addFoodInput}>+</Button>
-          </Row>
         </Row>
       )}
     </div>
