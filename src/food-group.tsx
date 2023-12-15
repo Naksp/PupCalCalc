@@ -156,7 +156,6 @@ function FoodGroup(props: {
       }
 
     } else {
-      // setFoodInput(oldFoodInput);
       if (oldFoodInput) {
         const newArray = [...foodDataArray];
         newArray[0].density = oldFoodInput;
@@ -337,9 +336,6 @@ function FoodGroup(props: {
                 ) : null}
               </Row>
             ))}
-            {/* <Row className='justify-content-left optional-text'>
-              optional
-            </Row> */}
             <Row className='d-flex justify-content-center'>
               <Button className='circle-button add-input-button justify-content-center' onClick={addFoodInput}>
                 <PlusIcon id='plus-icon' className='plus-icon'></PlusIcon>
