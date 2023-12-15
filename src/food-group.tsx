@@ -22,7 +22,7 @@ function FoodGroup(props: {
   onTransitionDataChange: (data: string[]) => void,
 }) {
 
-  const [foodInput, setFoodInput] = useState<string>();
+  // const [foodInput, setFoodInput] = useState<string>();
   const [oldFoodInput, setOldFoodInput] = useState<string>();
   const [newFoodInput, setNewFoodInput] = useState<string>();
   const [foodDataArray, setFoodDataArray] = useState<foodData[]>([{density: '', percent: '', id: 0}]);
@@ -32,7 +32,7 @@ function FoodGroup(props: {
   const [transitionMode, setTransitionMode] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!transitionMode && foodInput) {
+    if (!transitionMode && foodDataArray[0].density) {
       props.onResultChange(buildFoodResult(props.calories.min, props.calories.max));
     } else if (transitionMode && oldFoodInput && newFoodInput) {
       props.onTransitionDataChange(buildFoodTransitionData())
@@ -40,10 +40,10 @@ function FoodGroup(props: {
     } else {
       props.onResultChange('');
     }
-  }, [props.calories.min, props.calories.max, foodInput, oldFoodInput, newFoodInput, foodUnit, transitionMode]);
+  }, [props.calories.min, props.calories.max, foodDataArray, oldFoodInput, newFoodInput, foodUnit, transitionMode]);
 
   const buildFoodResult = (min: number, max?: number): string => {
-    const density = Number(foodInput);
+    const density = Number(foodDataArray[0].density);
     if (max && max >= 0) {
       if (foodUnit === KCAL_G) {
         return `${Math.round(min / density)} - ${Math.round(max / density)} grams/day`
@@ -69,10 +69,6 @@ function FoodGroup(props: {
     return '';
   };
 
-  const handleFoodArrayInputChange = (value: string, id: number) => {
-
-  }
-
   const handleNewFoodInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.currentTarget.value;
     setNewFoodInput(val);
@@ -82,7 +78,7 @@ function FoodGroup(props: {
     setOldFoodInput(val);
   }
 
-  const handleFoodInputChange2 = (idx: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFoodInputChange = (idx: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.currentTarget.value;
     const newArray = [...foodDataArray];
     newArray[idx].density = val;
@@ -104,16 +100,29 @@ function FoodGroup(props: {
 
   useEffect(() => {
     if (transitionMode) {
-      setOldFoodInput(foodInput);
       props.onTransitionModeChange(true);
 
-      const el = document.getElementById('newFoodInput') as HTMLInputElement;
+      // If there's already something in the first food input, use that as initial old food density
+      const firstInputVal = foodDataArray[0].density;
+      setOldFoodInput(firstInputVal);
+      var el = document.getElementById('oldFoodInput') as HTMLInputElement;
+      if (firstInputVal && el) {
+        el.value = firstInputVal;
+      }
+
+      // This makes sure the input renders the new food input value on transition change
+      el = document.getElementById('newFoodInput') as HTMLInputElement;
       if (newFoodInput && el) {
         el.value = newFoodInput;
       }
 
     } else {
-      setFoodInput(oldFoodInput);
+      // setFoodInput(oldFoodInput);
+      if (oldFoodInput) {
+        const newArray = [...foodDataArray];
+        newArray[0].density = oldFoodInput;
+        setFoodDataArray(newArray);
+      }
       props.onTransitionModeChange(false);
 
     }
@@ -262,10 +271,10 @@ function FoodGroup(props: {
         <Row className='justify-content-center mb-2'>
           <Col className='col-8 col-sm-6'>
             {foodDataArray.map((input, idx) => (
-              <Row className='mb-0'>
-                <InputGroup key={input.id} id={`food-input${idx}`}className='mb-0'>
+              <Row key={idx} className='mb-0'>
+                <InputGroup key={idx} id={`food-input${idx}`}className='mb-0'>
                   {/* <Form.Control id='foodInput' type='number' step='any' placeholder='##' onChange={handleFoodInputChange} /> */}
-                  <Form.Control id='foodInput' type='number' step='any' placeholder='##' value={input.density ? input.density : ''} onChange={handleFoodInputChange2(idx)}/>
+                  <Form.Control id='foodInput' type='number' step='any' placeholder='##' value={input.density ? input.density : ''} onChange={handleFoodInputChange(idx)}/>
                   <DropdownButton disabled={idx > 0} id='foodDropdown' title={foodUnit}>
                     <DropdownItem onClick={() => setFoodUnit(KCAL_KG)}>{KCAL_KG}</DropdownItem>
                     <DropdownItem onClick={() => setFoodUnit(KCAL_G)}>{KCAL_G}</DropdownItem>
