@@ -341,7 +341,7 @@ function FoodGroup(props: {
               optional
             </Row> */}
             <Row className='d-flex justify-content-center'>
-              <Button className='circle-button add-input-button' onClick={addFoodInput}>
+              <Button className='circle-button add-input-button justify-content-center' onClick={addFoodInput}>
                 <PlusIcon id='plus-icon' className='plus-icon'></PlusIcon>
               </Button>
             </Row>
