@@ -303,6 +303,7 @@ input[type=number] {
 #calorie-result,
 #food-result {
   font-weight: 900 !important;
+  white-space: pre-line;
 }
 
 #food-transition-result-container {

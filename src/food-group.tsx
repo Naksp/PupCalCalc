@@ -43,29 +43,70 @@ function FoodGroup(props: {
   }, [props.calories.min, props.calories.max, foodDataArray, oldFoodInput, newFoodInput, foodUnit, transitionMode]);
 
   const buildFoodResult = (min: number, max?: number): string => {
-    const density = Number(foodDataArray[0].density);
-    if (max && max >= 0) {
-      if (foodUnit === KCAL_G) {
-        return `${Math.round(min / density)} - ${Math.round(max / density)} grams/day`
+    if (foodDataArray.length <= 1) {
+      const density = Number(foodDataArray[0].density);
+      if (max && max >= 0) {
+        if (foodUnit === KCAL_G) {
+          return `${Math.round(min / density)} - ${Math.round(max / density)} grams/day`
 
-      } else if (foodUnit === KCAL_KG) {
-        return `${Math.round(min / density * 1000)} - ${Math.round(max / density * 1000)} grams/day`
+        } else if (foodUnit === KCAL_KG) {
+          return `${Math.round(min / density * 1000)} - ${Math.round(max / density * 1000)} grams/day`
 
-      } else if (foodUnit === KCAL_CUP) {
-        return `${Utils.truncateNumber(min / density)} - ${Utils.truncateNumber(max / density)} cups/day`
+        } else if (foodUnit === KCAL_CUP) {
+          return `${Utils.truncateNumber(min / density)} - ${Utils.truncateNumber(max / density)} cups/day`
+        }
+      } else {
+        if (foodUnit === KCAL_G) {
+          return `${Math.round(min / density)} grams/day`
+
+        } else if (foodUnit === KCAL_KG) {
+          return `${Math.round(min / density * 1000)} grams/day`
+
+        } else if (foodUnit === KCAL_CUP) {
+          return `${Utils.truncateNumber(min / density)} cups/day`
+        }
       }
     } else {
-      if (foodUnit === KCAL_G) {
-        return `${Math.round(min / density)} grams/day`
 
-      } else if (foodUnit === KCAL_KG) {
-        return `${Math.round(min / density * 1000)} grams/day`
+      var resultString: string = '';
+      // TODO change this after implementing actual percentages for inputs
+      const percent = 1/foodDataArray.length;
 
-      } else if (foodUnit === KCAL_CUP) {
-        return `${Utils.truncateNumber(min / density)} cups/day`
-      }
+      for (let idx: number = 0; idx < foodDataArray.length; idx++) {
+        const density = Number(foodDataArray[idx].density);
+        if (!density) {
+          continue;
+        }
+
+        if (max && max >= 0) {
+          if (foodUnit === KCAL_G) {
+            resultString += `${Math.round(min / density)} - ${Math.round(max / density)}g food ${idx + 1}`;
+
+          } else if (foodUnit === KCAL_KG) {
+            resultString += `${Math.round(min / density * 1000)} - ${Math.round(max / density * 1000)}g food ${idx + 1}`
+
+          } else if (foodUnit === KCAL_CUP) {
+            resultString += `${Utils.truncateNumber(min / density)} - ${Utils.truncateNumber(max / density)}cups food ${idx + 1}`
+          }
+        } else {
+          if (foodUnit === KCAL_G) {
+            resultString += `${Math.round(min*percent / density)}g food ${idx + 1}`
+
+          } else if (foodUnit === KCAL_KG) {
+            resultString += `${Math.round(min*percent / density * 1000)}g food ${idx + 1}`
+
+          } else if (foodUnit === KCAL_CUP) {
+            resultString += `${Utils.truncateNumber(min*percent / density)} cups food ${idx + 1}`
+          }
+        }
+
+        if (idx < foodDataArray.length - 1) {
+          resultString += `\n`;
+        }
+      };
+
+      return resultString;
     }
-
     return '';
   };
 
