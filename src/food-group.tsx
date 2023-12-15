@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Form, Row, Col, InputGroup, DropdownButton } from 'react-bootstrap';
+import { Form, Row, Col, InputGroup, DropdownButton, Button } from 'react-bootstrap';
 import DropdownItem from "react-bootstrap/esm/DropdownItem";
 import { CaloriePair } from "./interfaces";
 import Utils from "./Util";
@@ -8,6 +8,12 @@ import Utils from "./Util";
 const KCAL_G = 'kcal/g';
 const KCAL_KG = 'kcal/kg';
 const KCAL_CUP = 'kcal/cup';
+
+interface foodData {
+  density: string;
+  percent: string;
+  id: number;
+};
 
 function FoodGroup(props: {
   calories: CaloriePair,
@@ -19,6 +25,8 @@ function FoodGroup(props: {
   const [foodInput, setFoodInput] = useState<string>();
   const [oldFoodInput, setOldFoodInput] = useState<string>();
   const [newFoodInput, setNewFoodInput] = useState<string>();
+  const [foodDataArray, setFoodDataArray] = useState<foodData[]>([{density: '', percent: '', id: 0}]);
+  const [nextInputId, setNextInputId] = useState<number>(1);
 
   const [foodUnit, setFoodUnit] = useState<string>(KCAL_KG);
   const [transitionMode, setTransitionMode] = useState<boolean>(false);
@@ -61,17 +69,38 @@ function FoodGroup(props: {
     return '';
   };
 
-  const handleFoodInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const targetId = e.currentTarget.id;
+  const handleFoodArrayInputChange = (value: string, id: number) => {
+
+  }
+
+  const handleNewFoodInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.currentTarget.value;
-    if (targetId === 'foodInput') {
-      setFoodInput(val);
-    } else if (targetId === 'oldFoodInput') {
-      setOldFoodInput(val);
-    } else if (targetId === 'newFoodInput') {
-      setNewFoodInput(val);
-    }
-  };
+    setNewFoodInput(val);
+  }
+  const handleOldFoodInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.currentTarget.value;
+    setOldFoodInput(val);
+  }
+
+  const handleFoodInputChange2 = (idx: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.currentTarget.value;
+    const newArray = [...foodDataArray];
+    newArray[idx].density = val;
+
+    setFoodDataArray(newArray);
+  }
+
+  // const handleFoodInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const targetId = e.currentTarget.id;
+  //   const val = e.currentTarget.value;
+  //   if (targetId === 'foodInput') {
+  //     setFoodInput(val);
+  //   } else if (targetId === 'oldFoodInput') {
+  //     setOldFoodInput(val);
+  //   } else if (targetId === 'newFoodInput') {
+  //     setNewFoodInput(val);
+  //   }
+  // };
 
   useEffect(() => {
     if (transitionMode) {
@@ -180,6 +209,27 @@ function FoodGroup(props: {
     return data;
   };
 
+  const addFoodInput = () => {
+    if (addFoodInput.length === 1) {
+      //TODO: Change input to include percent
+    } else {
+      
+      setFoodDataArray((prevArray) => [
+        ...prevArray,
+        { density: '', percent: '', id: nextInputId },
+      ]);
+      setNextInputId(nextInputId + 1);
+    }
+  }
+
+  const removeFoodInput = (id: number) => {
+    console.log(`removing input ${id}`);
+    setFoodDataArray(
+      foodDataArray.filter( input => id !== input.id)
+    );
+
+  };
+
   return (
     <div>
       <h1>food</h1>
@@ -197,8 +247,8 @@ function FoodGroup(props: {
           <Col className='col'>
             <Row className='mb-0 mx-1'>
               <InputGroup className='mb-0 px-0'>
-                <Form.Control id='oldFoodInput' type='number' step='any' placeholder='old' onChange={handleFoodInputChange} />
-                <Form.Control id='newFoodInput' type='number' step='any' placeholder='new' onChange={handleFoodInputChange} />
+                <Form.Control id='oldFoodInput' type='number' step='any' placeholder='old' onChange={handleOldFoodInputChange} />
+                <Form.Control id='newFoodInput' type='number' step='any' placeholder='new' onChange={handleNewFoodInputChange} />
                 <DropdownButton id='foodDropdown' title={foodUnit}>
                   <DropdownItem onClick={() => setFoodUnit(KCAL_KG)}>{KCAL_KG}</DropdownItem>
                   <DropdownItem onClick={() => setFoodUnit(KCAL_G)}>{KCAL_G}</DropdownItem>
@@ -211,20 +261,30 @@ function FoodGroup(props: {
       ) : (
         <Row className='justify-content-center mb-2'>
           <Col className='col-8 col-sm-6'>
-            <Row className='mb-0'>
-              <InputGroup className='mb-0'>
-                <Form.Control id='foodInput' type='number' step='any' placeholder='##' onChange={handleFoodInputChange} />
-                <DropdownButton id='foodDropdown' title={foodUnit}>
-                  <DropdownItem onClick={() => setFoodUnit(KCAL_KG)}>{KCAL_KG}</DropdownItem>
-                  <DropdownItem onClick={() => setFoodUnit(KCAL_G)}>{KCAL_G}</DropdownItem>
-                  <DropdownItem onClick={() => setFoodUnit(KCAL_CUP)}>{KCAL_CUP}</DropdownItem>
-                </DropdownButton>
-              </InputGroup>
-            </Row>
+            {foodDataArray.map((input, idx) => (
+              <Row className='mb-0'>
+                <InputGroup key={input.id} id={`food-input${idx}`}className='mb-0'>
+                  {/* <Form.Control id='foodInput' type='number' step='any' placeholder='##' onChange={handleFoodInputChange} /> */}
+                  <Form.Control id='foodInput' type='number' step='any' placeholder='##' value={input.density ? input.density : ''} onChange={handleFoodInputChange2(idx)}/>
+                  <DropdownButton disabled={idx > 0} id='foodDropdown' title={foodUnit}>
+                    <DropdownItem onClick={() => setFoodUnit(KCAL_KG)}>{KCAL_KG}</DropdownItem>
+                    <DropdownItem onClick={() => setFoodUnit(KCAL_G)}>{KCAL_G}</DropdownItem>
+                    <DropdownItem onClick={() => setFoodUnit(KCAL_CUP)}>{KCAL_CUP}</DropdownItem>
+                  </DropdownButton>
+                </InputGroup>
+                {idx > 0 ?
+                (<span>
+                  <Button id={`button-${idx}`} onClick={() => removeFoodInput(input.id)}>-</Button>
+                </span>) : null}
+              </Row>
+            ))}
             <Row className='justify-content-left optional-text'>
               optional
             </Row>
           </Col>
+          <Row>
+            <Button onClick={addFoodInput}>+</Button>
+          </Row>
         </Row>
       )}
     </div>

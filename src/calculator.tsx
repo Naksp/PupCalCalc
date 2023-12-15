@@ -62,7 +62,7 @@ function Calculator() {
 
             <DogGroup
               setSubmitEnabled={(enabled: boolean) => setSubmitEnabled(enabled)}
-              onBalancedCaloriesChange={(calories: CaloriePair) => { setCalories(calories); console.log(calories); }}
+              onBalancedCaloriesChange={(calories: CaloriePair) => { setCalories(calories); /**console.log(calories);*/ }}
               onBalancedCaloriesResultChange={(result: string) => setCaloriesResult(result)}
               includeTreats={includeTreats}
               onTreatsCaloriesResultChange={(result: string) => setTreatsResult(result)}
