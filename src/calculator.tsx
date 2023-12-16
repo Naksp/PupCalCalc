@@ -55,7 +55,7 @@ function Calculator() {
   }
 
   return (
-    <Container>
+    <Container id='calculator-container' className='px-0 px-sm-3'>
       <Row>
         <Col>
           <Form onSubmit={handleSubmit}>

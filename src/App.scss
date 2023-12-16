@@ -256,7 +256,21 @@ ul {
 }
 
 #foodDropdown {
+
+
+  border-top-right-radius: $border-standard-radius;
+  border-bottom-right-radius: $border-standard-radius;
+
+  border-top-width: $border-standard-width;
+  border-right-width: $border-standard-width;
   border-left-width: 1px;
+  border-bottom-width: $border-standard-width;
+
+  color: $color-dark-grey;
+  border-color: $border-standard-color;
+
+  font-weight: 700 !important;
+
   &.no-radius {
     background-color: $color-primary;
     border-top-right-radius: 0;
@@ -264,6 +278,8 @@ ul {
 
     border-left-width: 0px;
     border-right-width: 2px;
+
+    // max-width: 80px;
 
     border-style: solid; 
 
@@ -275,18 +291,6 @@ ul {
       }
     }
   }
-
-  border-top-right-radius: $border-standard-radius;
-  border-bottom-right-radius: $border-standard-radius;
-
-  border-top-width: $border-standard-width;
-  border-right-width: $border-standard-width;
-  border-bottom-width: $border-standard-width;
-
-  color: $color-dark-grey;
-  border-color: $border-standard-color;
-
-  font-weight: 700 !important;
 
   li.active > a,
   li.active > a:hover,
