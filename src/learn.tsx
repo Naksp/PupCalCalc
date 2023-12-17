@@ -2,7 +2,6 @@ import { Container, Row, Col, Table } from "react-bootstrap";
 import './learn.scss'
 import { useEffect } from "react";
 import ReactGA from 'react-ga4';
-import Utils from './Util'
 
 // Links
 const osuLink = 'https://vet.osu.edu/vmc/companion/our-services/nutrition-support-service/basic-calorie-calculator';
