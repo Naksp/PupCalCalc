@@ -81,13 +81,13 @@ function FoodGroup(props: {
 
         if (max && max >= 0) {
           if (foodUnit === KCAL_G) {
-            resultString += `${Math.round(min / density)} - ${Math.round(max / density)}g food ${idx + 1}`;
+            resultString += `${Math.round(min*percent / density)} - ${Math.round(max*percent / density)}g food ${idx + 1}`;
 
           } else if (foodUnit === KCAL_KG) {
-            resultString += `${Math.round(min / density * 1000)} - ${Math.round(max / density * 1000)}g food ${idx + 1}`
+            resultString += `${Math.round(min*percent / density * 1000)} - ${Math.round(max*percent / density * 1000)}g food ${idx + 1}`
 
           } else if (foodUnit === KCAL_CUP) {
-            resultString += `${Utils.truncateNumber(min / density)} - ${Utils.truncateNumber(max / density)}cups food ${idx + 1}`
+            resultString += `${Utils.truncateNumber(min*percent / density)} - ${Utils.truncateNumber(max*percent / density)}cups food ${idx + 1}`
           }
         } else {
           if (foodUnit === KCAL_G) {
@@ -304,7 +304,7 @@ function FoodGroup(props: {
         </Row>
       ) : (
         <Row className='justify-content-center mb-2'>
-          <Col className={foodDataArray.length > 1 ? 'col-12 col-sm-9' : 'col-8 col-sm-6'}>
+          <Col className={foodDataArray.length > 1 ? 'col-12 col-sm-10' : 'col-8 col-sm-6'}>
             {foodDataArray.map((input, idx) => (
               <Row key={idx} className='mb-2'>
                 <Col>
