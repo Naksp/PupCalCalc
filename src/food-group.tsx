@@ -29,7 +29,7 @@ function FoodGroup(props: {
   const [foodDataArray, setFoodDataArray] = useState<foodData[]>([{density: '', percent: '100', id: 0}]);
   const [nextInputId, setNextInputId] = useState<number>(1);
 
-  const [foodUnit, setFoodUnit] = useState<string>(KCAL_KG);
+  const [foodUnit, setFoodUnit] = useState<string>(KCAL_CUP);
   const [transitionMode, setTransitionMode] = useState<boolean>(false);
 
   useEffect(() => {
@@ -294,9 +294,9 @@ function FoodGroup(props: {
                 <Form.Control id='oldFoodInput' type='number' step='any' placeholder='old' onChange={handleOldFoodInputChange} />
                 <Form.Control id='newFoodInput' type='number' step='any' placeholder='new' onChange={handleNewFoodInputChange} />
                 <DropdownButton id='foodDropdown' title={foodUnit}>
+                  <DropdownItem onClick={() => setFoodUnit(KCAL_CUP)}>{KCAL_CUP}</DropdownItem>
                   <DropdownItem onClick={() => setFoodUnit(KCAL_KG)}>{KCAL_KG}</DropdownItem>
                   <DropdownItem onClick={() => setFoodUnit(KCAL_G)}>{KCAL_G}</DropdownItem>
-                  <DropdownItem onClick={() => setFoodUnit(KCAL_CUP)}>{KCAL_CUP}</DropdownItem>
                 </DropdownButton>
               </InputGroup>
             </Row>
@@ -312,9 +312,9 @@ function FoodGroup(props: {
                     {/* <Form.Control id='foodInput' type='number' step='any' placeholder='##' onChange={handleFoodInputChange} /> */}
                     <Form.Control id='foodInput' type='number' step='any' placeholder='##' value={input.density ? input.density : ''} onChange={handleFoodInputChange(idx)}/>
                     <DropdownButton disabled={idx > 0} id='foodDropdown' bsPrefix={foodDataArray.length > 1 ? 'no-radius' : ''} title={foodUnit}>
+                      <DropdownItem onClick={() => setFoodUnit(KCAL_CUP)}>{KCAL_CUP}</DropdownItem>
                       <DropdownItem onClick={() => setFoodUnit(KCAL_KG)}>{KCAL_KG}</DropdownItem>
                       <DropdownItem onClick={() => setFoodUnit(KCAL_G)}>{KCAL_G}</DropdownItem>
-                      <DropdownItem onClick={() => setFoodUnit(KCAL_CUP)}>{KCAL_CUP}</DropdownItem>
                     </DropdownButton>
                     {foodDataArray.length > 1 ?
                     <>
