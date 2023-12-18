@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Form, Row, Col, InputGroup, DropdownButton, Button } from 'react-bootstrap';
+import { Form, Row, Col, InputGroup, DropdownButton, Button, Popover, PopoverBody, OverlayTrigger } from 'react-bootstrap';
 import DropdownItem from "react-bootstrap/esm/DropdownItem";
 import { CaloriePair } from "./interfaces";
 import Utils from "./Util";
@@ -271,6 +271,14 @@ function FoodGroup(props: {
 
   };
 
+  const foodInputPopover = (
+    <Popover id='food-input-popover' placement='left'>
+      <PopoverBody>
+        This is a popover.
+      </PopoverBody>
+    </Popover>
+  );
+
   return (
     <div>
       <h1>food</h1>
@@ -285,6 +293,11 @@ function FoodGroup(props: {
           id="food-transition-switch"
           label="transition" />
       </Row>
+      {/* <Row className="d-flex justify-content-end">
+        <OverlayTrigger trigger='click' placement='left' overlay={foodInputPopover}>
+          <Button id='food-input-popover-button'>?</Button>
+        </OverlayTrigger>
+      </Row> */}
 
       {transitionMode ? (
         <Row className='justify-content-center mb-3'>
@@ -303,46 +316,52 @@ function FoodGroup(props: {
           </Col>
         </Row>
       ) : (
-        <Row className='justify-content-center mb-2'>
-          <Col className={foodDataArray.length > 1 ? 'col-12 col-sm-10' : 'col-8 col-sm-6'}>
-            {foodDataArray.map((input, idx) => (
-              <Row key={idx} className='mb-2'>
-                <Col>
-                  <InputGroup key={idx} id={`food-input${idx}`}className='mb-0'>
-                    {/* <Form.Control id='foodInput' type='number' step='any' placeholder='##' onChange={handleFoodInputChange} /> */}
-                    <Form.Control id='foodInput' type='number' step='any' placeholder='##' value={input.density ? input.density : ''} onChange={handleFoodInputChange(idx)}/>
-                    <DropdownButton disabled={idx > 0} id='foodDropdown' bsPrefix={foodDataArray.length > 1 ? 'no-radius' : ''} title={foodUnit}>
-                      <DropdownItem onClick={() => setFoodUnit(KCAL_KG)}>{KCAL_KG}</DropdownItem>
-                      <DropdownItem onClick={() => setFoodUnit(KCAL_G)}>{KCAL_G}</DropdownItem>
-                      <DropdownItem onClick={() => setFoodUnit(KCAL_CUP)}>{KCAL_CUP}</DropdownItem>
-                    </DropdownButton>
-                    {foodDataArray.length > 1 ?
-                    <>
-                      <Form.Control id='percentInput' type='number' step='any' placeholder='##' value={input.percent ? input.percent : ''} onChange={handleFoodPercentChange(idx)}/>
-                      <Form.Control id='percentLabel' disabled type='text' step='any' value='%' />
+        <>
+          <Row className='justify-content-center mb-0'>
+            <Col className={foodDataArray.length > 1 ? 'col-12 col-sm-10' : 'col-8 col-sm-6'}>
+              {foodDataArray.map((input, idx) => (
+                <Row key={idx} className='mb-2 d-flex'>
+                  <Col id='food-input-col'>
+                    <InputGroup key={idx} id={`food-input${idx}`}className='mb-0'>
+                      <Form.Control id='foodInput' type='number' step='any' placeholder='##' value={input.density ? input.density : ''} onChange={handleFoodInputChange(idx)}/>
+                      <DropdownButton disabled={idx > 0} id='foodDropdown' bsPrefix={foodDataArray.length > 1 ? 'no-radius' : ''} title={foodUnit}>
+                        <DropdownItem onClick={() => setFoodUnit(KCAL_KG)}>{KCAL_KG}</DropdownItem>
+                        <DropdownItem onClick={() => setFoodUnit(KCAL_G)}>{KCAL_G}</DropdownItem>
+                        <DropdownItem onClick={() => setFoodUnit(KCAL_CUP)}>{KCAL_CUP}</DropdownItem>
+                      </DropdownButton>
+                      {foodDataArray.length > 1 ?
+                      <>
+                        <Form.Control id='percentInput' type='number' step='any' placeholder='##' value={input.percent ? input.percent : ''} onChange={handleFoodPercentChange(idx)}/>
+                        <Form.Control id='percentLabel' disabled type='text' step='any' value='%' />
 
-                    </>
-                      : null
-                    }
-                  </InputGroup>
-                </Col>
-                {idx > 0 ?
-                (
-                  <Col className="col-2 remove-button-col">
-                    <Button id={`button-${idx}`} className='circle-button remove-input-button justify-content-center' onClick={() => removeFoodInput(input.id)}>
-                      <MinusIcon className='minus-icon'></MinusIcon>
-                    </Button>
+                      </>
+                        : null
+                      }
+                    </InputGroup>
                   </Col>
-                ) : null}
-              </Row>
-            ))}
-            <Row className='d-flex justify-content-center'>
-              <Button className='circle-button add-input-button justify-content-center' onClick={addFoodInput}>
-                <PlusIcon id='plus-icon' className='plus-icon'></PlusIcon>
-              </Button>
-            </Row>
-          </Col>
-        </Row>
+                  {idx > 0 ?
+                  (
+                    <Col className="col-2 remove-button-col">
+                      <Button id={`button-${idx}`} className='circle-button remove-input-button justify-content-center' onClick={() => removeFoodInput(input.id)}>
+                        <MinusIcon className='minus-icon'></MinusIcon>
+                      </Button>
+                    </Col>
+                  ) : null}
+                </Row>
+              ))}
+            </Col>
+            <Col className='col-1'>
+              <OverlayTrigger trigger='click' placement='left' overlay={foodInputPopover}>
+                <Button id='food-input-popover-button'>?</Button>
+              </OverlayTrigger>
+            </Col>
+          </Row>
+          <Row className='d-flex justify-content-center mb-3'>
+            <Button className='circle-button add-input-button justify-content-center' onClick={addFoodInput}>
+              <PlusIcon id='plus-icon' className='plus-icon'></PlusIcon>
+            </Button>
+          </Row>
+        </>
       )}
     </div>
   );

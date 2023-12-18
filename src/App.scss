@@ -367,6 +367,21 @@ ul {
   padding-top: 2px;
 }
 
+#food-input-popover-button {
+  background-color: #00000000;
+  color: $color-medium-grey;
+  border: none;
+
+  width: 50px;
+  height: 50px;
+
+  margin-bottom: -40px;
+}
+
+#food-input-col {
+  align-self: center;
+}
+
 
 // Disable buttons on weight input
 /* Chrome, Safari, Edge, Opera */
